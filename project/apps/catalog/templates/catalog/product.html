@@ -1,0 +1,22 @@
+{% load static %}
+<a href="{{product.get_absolute_url}}" class='product-link'>
+    <form action='api/addtocart' class="product-wide">
+        <img src={% if product.image %}{{product.image.url}}{% else %}{% static 'image/placeholder.png' %}{% endif %} alt="product_image">
+        <h1>{{product.title}}</h1>
+        <div class="prices">
+            {% if product.old_price %}
+                <span class="price">
+                    {{product.price}} &#8381;
+                </span>
+                <span class="old-price">
+                    {{product.old_price}} &#8381;
+                </span>
+            {% else %}
+                <span class="price">
+                    {{product.price}} &#8381;
+                </span>
+            {% endif %}
+        </div>
+        <button class="addToCard">В корзину</button>
+    </form>
+</a>

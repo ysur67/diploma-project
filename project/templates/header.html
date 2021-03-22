@@ -1,0 +1,93 @@
+{% load static %}
+<header class="header">
+  <div class="header-top">
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <ul class="topheader-nav">
+            <li><a href="#">О компании</a></li>
+            <li><a href="#">Спецпредложения</a></li>
+            <li><a href="#">Доставка и оплата</a></li>
+            <li><a href="#">Новости</a></li>
+            <li><a href="#">Контакты</a></li>
+          </ul>
+        </div>
+        <div class="col-2">
+            <a href="#" class="city">
+                <img src={% static 'image/loc.svg' %} alt="city">
+                Город
+            </a>
+        </div>
+        <div class="col-2">
+            <div class="header-phones">
+                <img src={% static 'image/phone.svg' %} alt="tel">
+                <span>
+                    <a href="">+7 (8202) 29-12-81</a>
+                     <a href="">+7 (8202) 29-12-81</a>
+                </span>
+            </div>
+        </div>
+        <div class="col-2">
+            <a href="#" class="callback-btn">
+                Обратный звонок
+            </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="header-middle">
+    <div class="container">
+        <div class="row">
+            <div class="col-2">
+                <a href="{% url 'index_page' %}" class='header-logo'><img src={% static 'image/logo.png' %} alt="logo"></a>
+            </div>
+            <div class="col-5">
+                <form action="" id='searchForm'>
+                    <input type="text" name="search" id="searchField">
+                </form>
+            </div>
+            <div class="col-5">
+                <div class="header-menu">
+                    <a href=""><img src={% static 'image/gear.svg' %} alt="gear">Заказать запчасти</a>
+                    <a href=""><img src={% static 'image/user.svg' %} alt="user">Личный кабинет</a>
+                    <a href=""><img src={% static 'image/cart.svg' %} alt="cart">Корзина</a>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  <div class="header-bottom">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+            <div class="catalog-map">
+                <a href="{% url 'catalog:category_list' %}">
+                    <img src={% static 'image/catalog.svg' %} alt="cat">
+                    Каталог товаров
+                </a>
+                <a href="">
+                    <img src={% static 'image/oil.svg' %} alt="cat">
+                    Автохимия
+                </a>
+                <a href="">
+                    <img src={% static 'image/battery.svg' %} alt="cat">
+                    АКБ
+                </a>
+                <a href="">
+                    <img src={% static 'image/tire.svg' %} alt="cat">
+                    Шины, камеры
+                </a>
+                <a href="">
+                    <img src={% static 'image/tools.svg' %} alt="cat">
+                    Инструменты
+                </a>
+                <a href="">
+                    <img src={% static 'image/aid.svg' %} alt="cat">
+                    Аксессуары
+                </a>
+            </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</header>

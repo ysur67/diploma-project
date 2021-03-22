@@ -1,0 +1,133 @@
+
+.header{
+    list-style: none;
+    font-family: $font;
+    font-weight: 500;
+    font-size: 15px;
+    .header-top{
+        background-color: #F3F4F6;
+    }
+    .topheader-nav{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        padding: 16px 0px;
+        li{
+            list-style-type:none;
+            a{
+                color: $textColor;
+                &:hover{
+                    color: $textHoverColor;
+                    text-decoration: none;
+                }
+            }
+        }
+    }
+    .city{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        img{
+            margin-right: 13px;
+        }
+       border-right: 1px solid black;
+       &:hover{
+           background-color: #ECEDEF;
+       }
+    }
+    .header-phones{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        font-size: 14px;
+        height: 100%;
+        img{
+            width: 30px;
+            height: 30px;
+        }
+        a{
+            &:hover{
+                color:  $textHoverColor;
+            }
+        }
+    }
+    .callback-btn{
+        color: white;
+        background-color: $bottomHeadColor;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 16px 15px;
+        &:hover{
+            background-color: $bottomHeaderHover;
+        }
+    }
+    .header-middle{
+        padding:25px 0px;
+        #searchForm{
+            display: flex;
+            align-items: center;
+            height: 100%;
+            #searchField{
+                width: 100%;
+                padding: 10px 20px;
+                outline: none;
+                border: 1px solid #C0C0C0;
+                
+            }
+        }
+        .header-menu{
+            display:flex;
+            align-items: center;
+            height: 100%;
+            justify-content: space-between;
+            a{
+                display: flex;
+                align-items: center;
+                &:hover{
+                    color: $textHoverColor;
+                }
+                img{
+                    margin-right: 10px;
+                }
+            }
+        }
+    }
+    .header-bottom{
+        background-color: $bottomHeadColor;
+        .catalog-map{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            a{
+                width: 16.7%;
+                color: white;
+                text-decoration: none;
+                padding: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+                &:hover{
+                    background-color: $bottomHeaderHover;
+                }
+                &::after{
+                    content: "";
+                    position: absolute;
+                    left: 0px;
+                    height: 85%;
+                    border-right: white 1px solid;
+                }
+                &:first-of-type::after{
+                    content: none;
+                    border: none;
+                }
+
+            }
+            img{
+                margin-right: 10px;
+            }
+        }
+    }
+}

@@ -1,0 +1,84 @@
+.main-title{
+    h1{
+        font-family: Inter;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 36px;
+        line-height: 48px;
+        color: $textColor;
+        display: inline;
+    }
+    h5{
+        font-family: Inter;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 26px;
+        color: $grayText;
+        display: inline;
+    }
+}
+.category-subs{
+    margin-top: 26px;
+    padding: 20px;
+    border: 1px solid $borderColor;
+    border-radius: 4px;
+
+    h1{
+        font-family: Inter;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 26px;
+        color: $textColor;
+        margin: 0;
+        padding-bottom: 17px;
+        border-bottom: 1px solid $grayText;
+    }
+    .subs{
+        margin-top: 30px;
+        max-height: 240px;
+        overflow-y: scroll;
+        a{
+            font-family: Inter;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 15px;
+            line-height: 24px;
+            color: $grayText;
+            &:first-of-type{
+                margin-top: 0px;
+            }
+            margin-top: 22px;
+        }
+    }
+}
+.filters{
+    padding: 20px;
+    border: 1px solid $borderColor;
+    border-radius: 4px;
+    margin-top: 30px;
+    h1{
+        font-family: Inter;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 15px;
+        line-height: 18px;
+        color: $textColor;
+    }
+}
+#sorting{
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    h1{
+        font-family: Inter;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 15px;
+        line-height: 18px;
+        color: $grayText;
+        display: inline;
+    }
+}

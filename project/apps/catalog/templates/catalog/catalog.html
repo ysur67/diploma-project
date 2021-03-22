@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="category">
+    {% for category in object_list %}
+        <div class="category__wrapper">
+            <a href="{{category.get_absolute_url}}" class="category__title">
+                <img src={% static 'image/mini-logo.svg' %} alt="tel">
+                {{category.title}}
+            </a>
+            {% if category.children %}
+                <div class="category__cats-wrapper">
+                    {% for sub_cat in category.get_active_children %}
+                        <a href="{{sub_cat.get_absolute_url}}">{{sub_cat.title}}</a>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock content %}
+

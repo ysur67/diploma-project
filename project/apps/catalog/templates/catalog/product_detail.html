@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <h1>{{product.title}}</h1>
+    {% for sim_prod in similar_products %}
+        {{sim_prod}}
+    {% endfor %}
+{% endblock content %}

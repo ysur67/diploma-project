@@ -1,0 +1,9 @@
+@import './variables';
+@import './fonts';
+
+@import './base';
+@import 'components/header';
+@import 'components/footer';
+@import 'components/category';
+@import 'components/product-card';
+@import 'containers/catalog';

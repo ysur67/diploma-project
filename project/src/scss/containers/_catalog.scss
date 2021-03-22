@@ -1,0 +1,41 @@
+.category{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    &__wrapper{
+        display: flex;
+        flex-direction: column;
+        width: 1200px;
+    }
+    &__title{
+        font-family: Inter;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 26px;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        color: $textColor;
+        &:hover{
+            color: $textHoverColor;
+        }
+    }
+    &__cats-wrapper{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        min-height: 70px;
+        a{
+            color: $textColor;
+            font-family: Inter;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 16px;
+            line-height: 26px;
+            &:hover{
+                color: $textHoverColor;
+            }
+        }
+    }
+}

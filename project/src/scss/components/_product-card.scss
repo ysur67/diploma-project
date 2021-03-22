@@ -1,0 +1,77 @@
+.product_list{
+    margin-top: 16px;
+    border: 1px solid $borderColor;
+    border-radius: 4px;
+    padding: 20px;
+}
+
+.product-link{
+
+    .product-wide{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 0px;
+        border-bottom: 1px solid $grayText;
+        img{
+            width: 75px;
+            height: 75px;
+        }
+        h1{
+            font-family: Inter;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 15px;
+            line-height: 18px;
+            color: $textColor;
+            width: 300px;
+        }
+        .prices{
+            width: 200px;
+            .price{
+                font-family: Inter;
+                font-style: normal;
+                font-weight: 600;
+                font-size: 21px;
+                line-height: 28px;
+                color: $textColor;
+            }
+            .old-price{
+                color: $grayText;
+                text-decoration: line-through;
+                font-family: Inter;
+                font-style: normal;
+                font-weight: 600;
+                font-size: 15px;
+                line-height: 22px;
+            }
+        }
+        .addToCard{
+            width: 230px;
+            height: 48px;
+            outline: none;
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 18px;
+            color: $textColor;
+            border: none;
+            border: 1px solid #313D49;
+            border-radius: 4px;
+            background-color: white;
+            &:hover{
+                cursor: pointer;
+                background: #F2691C;
+                color: white;
+            }
+        }
+    }
+    &:last-of-type .product-wide{
+        border-bottom: none;
+    }
+    &:hover .product-wide h1{
+        color: $textHoverColor;
+    }
+}

@@ -1,0 +1,12 @@
+/media/
+/.vscode/
+/conf/venv
+
+# import_name.xml files
+/imports/
+project/static
+
+/**/__pycache__/*
+/**/__pycache__
+
+/**/migrations/
