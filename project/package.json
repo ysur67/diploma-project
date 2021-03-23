@@ -1,0 +1,17 @@
+{
+  "name": "trak35",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "gulp-header": "^2.0.9",
+    "gulp-uglify-es": "^2.0.0",
+    "vinyl-named": "^1.1.0"
+  }
+}

@@ -6,6 +6,8 @@
 /imports/
 project/static
 
+/project/node_modules
+
 /**/__pycache__/*
 /**/__pycache__
 
