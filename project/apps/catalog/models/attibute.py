@@ -26,13 +26,6 @@ class Attribute(models.Model):
     
 
 class AttributeValue(models.Model):
-    # attribute = models.CharField(
-    #     max_length=500,
-    #     null=True,
-    #     blank=True,
-    #     unique=True,
-    #     verbose_name="Идентификатор из базы 1с"
-    # )
     id_1c = models.CharField(
         max_length=500,
         null=True,
@@ -67,7 +60,7 @@ class ProductAttributeValue(models.Model):
         Product,
         on_delete=models.CASCADE,
         verbose_name='Товар',
-        related_name='attribute_values',
+        related_name='attributes',
         null=True,
     )
     attribute_value = models.ForeignKey(
@@ -77,10 +70,6 @@ class ProductAttributeValue(models.Model):
         related_name='products',
         null=True,
     )
-    # value = models.CharField(
-    #     'Значние атрибута',
-    #     max_length=200,
-    # )
 
     def __str__(self):
         return str(self.product) + \

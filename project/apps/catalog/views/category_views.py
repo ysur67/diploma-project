@@ -25,6 +25,28 @@ class CategoryJSONDetail(ListView):
     context_object_name = 'product-category'
     template_name = 'catalog/product_list.html'
 
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        qs = Product.objects.filter(category=\
+            Category.objects.get(slug=self.kwargs['slug']))
+        if self.request.is_ajax():
+            context['attributes'] = qs.attributes.all()
+            return context
+        else:
+            return context
+            
+    def post(self, request, *args, **kwargs):
+        qs = Product.objects.filter(category=\
+            Category.objects.get(slug=self.kwargs['slug']))
+
+        attributes = qs.get_attributes()
+        
+
+        if request.is_ajax:
+            return JsonResponse({'attributes':'still None'})
+        else:
+            return JsonResponse({'attributes': None})
+
     def get_queryset(self, *args, **kwargs):
         obj = Category.objects.get(slug=self.kwargs['slug'])
         if self.has_children(obj):

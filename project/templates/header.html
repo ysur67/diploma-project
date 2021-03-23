@@ -61,7 +61,14 @@
         <div class="row">
             <div class="col-12">
             <div class="catalog-map">
-                <a href="{% url 'catalog:category_list' %}">
+
+                {% for category in site_settings.header_categories.all %}
+                    <a href="{{category.get_absolute_url}}">
+                        <img src={% static 'image/catalog.svg' %} alt="cat">
+                        {{category.title}}
+                    </a>
+                {% endfor %}
+                {% comment %} <a href="{% url 'catalog:category_list' %}">
                     <img src={% static 'image/catalog.svg' %} alt="cat">
                     Каталог товаров
                 </a>
@@ -84,7 +91,7 @@
                 <a href="">
                     <img src={% static 'image/aid.svg' %} alt="cat">
                     Аксессуары
-                </a>
+                </a> {% endcomment %}
             </div>
             </div>
         </div>
