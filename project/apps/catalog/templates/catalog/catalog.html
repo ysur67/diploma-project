@@ -1,23 +1,31 @@
 {% extends 'base.html' %}
 {% load static %}
+
+{% block crumbs %}
+    <div class="crumbs">
+        <a href="{% url 'index_page' %}" class="crumb">Главная</a>
+        <a href="{% url 'catalog:category_list' %}" class="crumb">Каталог</a>
+    </div>
+{% endblock crumbs %}
+
 {% block content %}
-<div class="category">
-    {% for category in object_list %}
-        <div class="category__wrapper">
+    <div class="category__wrapper">
+        {% for category in object_list %}
+        <div class="category">
             <a href="{{category.get_absolute_url}}" class="category__title">
                 <img src={% static 'image/mini-logo.svg' %} alt="tel">
                 {{category.title}}
             </a>
             {% if category.children %}
-                <div class="category__cats-wrapper">
+                <div class="category-children__wrapper">
                     {% for sub_cat in category.get_active_children %}
-                        <a href="{{sub_cat.get_absolute_url}}">{{sub_cat.title}}</a>
+                        <a href="{{sub_cat.get_absolute_url}}" class=''>{{sub_cat.title}}</a>
                     {% endfor %}
                 </div>
             {% endif %}
         </div>
-    {% endfor %}
-</div>
+        {% endfor %} 
+    </div>
 
 {% endblock content %}
 

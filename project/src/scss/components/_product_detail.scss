@@ -1,0 +1,76 @@
+.product{
+    &__wrapper{
+        width: 1200px;
+        display: flex;
+        flex-direction: column;
+    }
+    &__main{
+        display: flex;
+        flex-direction: row;
+    }
+    &__image{
+        border: 1px solid #DAE0E6;
+        box-sizing: border-box;
+        border-radius: 4px;
+        object-fit: contain;
+        margin-right: 30px;
+        img{
+            width: 570px;
+            height: 427.5px;
+        }
+    }
+    &-info{
+        &__code{
+            font-family: Inter;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 14px;
+            line-height: 18px;
+            color: $grayText;
+            display: block;
+        }
+        &__title{
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 24px;
+            line-height: 30px;
+            color: $textColor;
+            display: block;
+        }
+        &__prices{
+            .price{
+                font-family: Inter;
+                font-style: normal;
+                font-weight: 600;
+                font-size: 35px;
+                line-height: 42px;
+
+            }
+        }
+    }
+    &__description{
+        width: 870px;
+        height: 491px;
+        border: 1px solid $borderColor;
+        border-radius: 4px;
+    }
+}
+
+.back-to-catalog{
+    width: 178px;
+    height: 45px;
+    padding: 10px 10px 14px 31px;
+    border: 1px solid $borderColor;
+    border-radius: 4px;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 18px;
+    color: $textColor;
+    &:hover{
+        color: white;
+        background-color: $textHoverColor;
+    }
+}

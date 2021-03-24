@@ -1,0 +1,22 @@
+.crumbs{
+    margin-top: 24px;
+    width: 1200px;
+    .crumb{
+        color: $grayText;
+        font-family: Inter;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 13px;
+        line-height: 20px;
+        &:hover:not(&::after){
+            color: $textHoverColor;
+            cursor: pointer;
+        }
+        &::after{
+            content: " | ";
+        }
+        &:last-child::after{
+            content: none;
+        }
+    }
+}

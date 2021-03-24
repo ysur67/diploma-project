@@ -1,9 +1,44 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block crumbs %}
+    <div class="crumbs">
+        <a href="{% url 'index_page' %}" class="crumb">Главная</a>
+        <a href="{% url 'catalog:category_list' %}" class="crumb">Каталог</a>
+        {% if product.category.get_ancestors %}
+            {% for child in product.category.get_ancestors %}
+                <a href="{{child.get_absolute_url}}" class="crumb">{{child}}</a>
+            {% endfor %}
+        {% endif %}
+        <a href="{{product.category.get_absolute_url}}" class="crumb">{{product.category}}</a>
+    </div>
+{% endblock crumbs %}
+
+{% block page_title %}
+    <div class="content-title">
+        <a href="{% url 'catalog:category_detail' slug=product.category.slug %}" class="back-to-catalog">Назад в Каталог</a>
+    </div>
+{% endblock page_title %}
+
 {% block content %}
-    <h1>{{product.title}}</h1>
-    {% for sim_prod in similar_products %}
-        {{sim_prod}}
-    {% endfor %}
+    <div class="product__wrapper">
+        <div class="product__main">
+            <div class="product__image">
+                <img src="{{product.image.url}}" alt="">
+            </div>
+            <div class="product-info">
+                {% if product.code %}
+                    <span class="product-info__code">{{product.code}}</span>
+                {% endif %}
+                <span class="product-info__title">{{product.title}}</span>
+                <div class="product-info__prices">
+                    <span class="price">{{product.price}} руб.</span>
+                </div>
+            </div>
+        </div>
+        <div class="product__description">
+        
+        </div>
+        
+    </div>
 {% endblock content %}

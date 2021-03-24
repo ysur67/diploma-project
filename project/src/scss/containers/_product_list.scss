@@ -1,0 +1,26 @@
+.catalog-page{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-list-content{
+    display: flex;
+    flex-direction: row;
+    width: 1200px;
+    justify-content: space-around;
+
+}
+
+.products-content{
+    width: 1200px;
+    &__sorting{
+        display: flex;
+    }
+    &__list{
+        padding: 10px 20px;
+        border: 1px solid $borderColor;
+        border-radius: 4px;
+    }
+}

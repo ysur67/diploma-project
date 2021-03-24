@@ -1,0 +1,41 @@
+.pagination{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 40px 0px;
+    .step-links{
+        display: flex;
+        align-items: center;
+        height: 50px;
+        .page{
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 26px;
+            text-align: center;
+            width: 40px;
+            height: 45px;
+            padding: 10px;
+            color: $textColor;
+            border: 1px solid $borderColor;
+            // border-radius: 4px;
+            &:hover{
+                background-color: $textHoverColor;
+                color: white;
+                cursor: pointer;
+            }
+            &:last-child{
+                border-radius: 0px 4px 4px 0px;
+            }
+            &:first-child{
+                border-radius: 4px 0px 0px 4px;
+            }
+        }
+        .active{
+            background-color: $textHoverColor;
+            color: white;
+            cursor: pointer;
+        }
+    }
+}

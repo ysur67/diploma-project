@@ -7,13 +7,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="{{site_settings.favicon.url}}" type="image/png">
     <link rel="stylesheet" href={% static 'css/bootstrap-grid.min.css' %}>
-    <link rel="stylesheet" type="text/css" href="{% static '/css/main.css' %}" >
+    <link rel="stylesheet" type="text/css" href="{% static '/css/pages/scss/main.css' %}" >
     <title>{{site_settings.site_name}}</title>
+    {% block styles %}{% endblock styles %}
 </head>
 <body>
-{% include 'header.html' %}
+{% include 'includes/header.html' %}
     <section>
-    {% block content %}{% endblock content %}
+    <div class="breadcrumbs">
+        {% block crumbs %}{% endblock crumbs %}
+    </div>
+    
+    <div class="page-title">
+        {% block page_title %}{% endblock page_title %}
+    </div>
+    <div class="page-content">
+        {% block content %}{% endblock content %}
+    </div>
+    {% comment %} {% block content %}{% endblock content %} {% endcomment %}
     </section>
     <footer class="footer">
     </footer>

@@ -9,6 +9,23 @@ body{
     }
 }
 
+.page-title{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.page-content{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.breadcrumbs{
+    display: flex;
+    justify-content: center;
+}
+
 @media (min-width: 1200px) {
     .container {
         max-width: 1200px;

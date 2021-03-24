@@ -1,10 +1,58 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block content %}
-    <div class="filter-wrapper">
 
+{% block crumbs %}
+    <div class="crumbs">
+        <a href="{% url 'index_page' %}" class="crumb">Главная</a>
+        <a href="{% url 'catalog:category_list' %}" class="crumb">Каталог</a>
+        {% if category.get_ancestors %}
+            {% for parent in category.get_ancestors %}
+                <a href="parent.get_absolute_url" class="crumb">{{parent.title}}</a>
+            {% endfor %}
+        {% else %}
+            <a href="" class="crumb">{{category.title}}</a>
+        {% endif %}
     </div>
-    {% for product in object_list %}
-        {% include 'catalog/product.html' with product=product %}
-    {% endfor %}
+{% endblock crumbs %}
+
+{% block page_title %}
+<span class="content-title">
+    <span class="product-list-title">{{category.title}}</span>
+    <span class="product-amount-title">{{product_list.count}} товаров</span>
+</span>
+{% endblock page_title %}
+
+{% block content %}
+<div class="product-list-content">
+    <div class="filter-wrapper">
+        <span class="filter-title">{{category.title}}</span>
+        <div class="children">
+            {% if category.get_children %}
+                {% for child in category.get_children %}
+                    <a href="{{ child.get_absolute_url }}" class="child-category">{{child.title}}</a>
+                {% endfor %}
+            {% else %}
+                <span class="inactive">Нет дочерних категорий</span>
+            {% endif %}
+        </div>
+    </div>
+    <div class="products-content">
+        <div class="products-content__sorting">
+            <form action="{{request.path}}">
+                <span>Отображение</span>
+                <button type="submit" value='wide'>Список</button>
+                <button type="submit" value='tile'>Плитка</button>
+            </form>
+        </div>
+        <div class="products-content__list">
+            {% for product in object_list %}
+                {% include 'catalog/includes/product.html' with product=product %}
+            {% endfor %}
+        </div>
+        {% include 'includes/pagination.html' %}
+    </div>
+</div>
 {% endblock content %}
+
+
+

@@ -22,13 +22,17 @@ class CatalogView(ListView):
 
 class CategoryJSONDetail(ListView):
     model = Category
-    context_object_name = 'product-category'
+    context_object_name = 'product_list'
     template_name = 'catalog/product_list.html'
+    paginate_by = 10
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         qs = Product.objects.filter(category=\
             Category.objects.get(slug=self.kwargs['slug']))
+        context['category'] = Category.objects.get(
+            slug=self.kwargs['slug']
+        )
         if self.request.is_ajax():
             context['attributes'] = qs.attributes.all()
             return context

@@ -60,39 +60,18 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-            <div class="catalog-map">
-
-                {% for category in site_settings.header_categories.all %}
-                    <a href="{{category.get_absolute_url}}">
+                <div class="catalog-map">
+                    <a href="{% url 'catalog:category_list' %}">
                         <img src={% static 'image/catalog.svg' %} alt="cat">
-                        {{category.title}}
+                        Каталог
                     </a>
-                {% endfor %}
-                {% comment %} <a href="{% url 'catalog:category_list' %}">
-                    <img src={% static 'image/catalog.svg' %} alt="cat">
-                    Каталог товаров
-                </a>
-                <a href="">
-                    <img src={% static 'image/oil.svg' %} alt="cat">
-                    Автохимия
-                </a>
-                <a href="">
-                    <img src={% static 'image/battery.svg' %} alt="cat">
-                    АКБ
-                </a>
-                <a href="">
-                    <img src={% static 'image/tire.svg' %} alt="cat">
-                    Шины, камеры
-                </a>
-                <a href="">
-                    <img src={% static 'image/tools.svg' %} alt="cat">
-                    Инструменты
-                </a>
-                <a href="">
-                    <img src={% static 'image/aid.svg' %} alt="cat">
-                    Аксессуары
-                </a> {% endcomment %}
-            </div>
+                    {% for category in site_settings.header_categories.all %}
+                        <a href="{{category.get_absolute_url}}">
+                            <img src={% static 'image/catalog.svg' %} alt="cat">
+                            {{category.title}}
+                        </a>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>

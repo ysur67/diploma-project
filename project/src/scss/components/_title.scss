@@ -1,0 +1,39 @@
+.content-title{
+    margin-top: 25px;
+    margin-bottom: 26px;
+    width: 1200px;
+    display: flex;
+    align-items: center;
+    justify-content: baseline;
+}
+
+.product-list-title{
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 36px;
+    line-height: 48px;
+    color: $textColor;
+}
+
+.product-amount-title{
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 26px; 
+    color: $grayText;
+    align-self: flex-end;
+}
+
+.filter-title{
+    color: $textColor;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 26px;
+    border-bottom: 1px solid $borderColor;
+    display: block;
+    padding-bottom: 17px;
+}
