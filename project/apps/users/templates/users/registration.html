@@ -1,10 +1,42 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block crumbs %}
+    <div class="crumbs">
+        <a href="{% url 'index_page' %}" class="crumb">Главная</a>
+        <a class="crumb">Регистрация</a>
+    </div>
+{% endblock crumbs %}
+
+{% block page_title %}<span class="content-title">Регистрация</span>{% endblock page_title %}
+
 {% block content %}
-    <form method="POST">
-        {% csrf_token %}
-        {{form.as_p}}
-        <button type="submit">Зарегестрироваться</button>
-    </form>
+    {% if request.user.is_authenticated %}
+        <script>
+            window.location.href = "{% url 'account:profile' %}";
+        </script>
+    {% endif %}
+    <div class="user-content">
+        <form method="POST" class='user-form'>
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="user-field">
+                    <label class="user-title" for="{{ field.auto_id }}">{{ field.label }}</label>
+                    {{ field }}
+                </div>
+            {% endfor %}
+            <span class="user-field display-errors">
+                Проверьте выделенные поля!
+            </span>
+            <div class="user-field">
+                <button type="submit" class="sn-form">Зарегистрироваться</button>
+                <a href="{% url 'account:login' %}" class='user-form__link'>У вас уже есть аккаунт?</a>
+            </div>
+            
+        </form>
+    </div>
 {% endblock content %}
+
+{% block extra_scripts %}
+    <script src="{% static 'js/user.js' %}"></script>
+{% endblock extra_scripts %}

@@ -1,5 +1,7 @@
 FROM python:3.6.9
 
+RUN apt update
+
 WORKDIR /usr/src/app
 
 RUN pip install --upgrade pip
@@ -15,3 +17,5 @@ RUN chmod +x entrypoint.sh
 COPY . .
 
 ENTRYPOINT [ "/usr/src/app/entrypoint.sh" ]
+
+CMD ['gulp', 'watch']

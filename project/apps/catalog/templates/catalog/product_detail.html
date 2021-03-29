@@ -36,8 +36,36 @@
                 </div>
             </div>
         </div>
-        <div class="product__description">
-        
+        <div class="product__extra">
+            <div class="product__description">
+                <span class="title">Характеристики</span>
+                {% for attribute in product.attributes.all %}
+                <div class="product__attribute">
+                    <span class="product__attribute-title">
+                        {{attribute.attribute_value.attribute}}
+                    </span>
+                    <span class="product__attribute-value">
+                        {{attribute.attribute_value.value}}
+                    </span>
+                </div>
+                {% endfor %}
+                {% if product.description %}
+                    <span class="title description">Описание</span>
+                    <div class="product__description-content">
+                        <span class="product__attribute-title">
+                            {{product.description}}
+                        </span>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="user-info">
+                <div class="user__payment">
+                
+                </div>
+                <div class="delivery">
+                
+                </div>
+            </div>
         </div>
         
     </div>

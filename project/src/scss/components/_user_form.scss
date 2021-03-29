@@ -1,0 +1,85 @@
+.user{
+    &-content{
+        width: 1200px;
+    }
+    &-form{
+        align-self: flex-start;
+        display: flex;
+        flex-direction: column;
+        width: 500px;
+        &__link{
+            font-family: Inter;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 15px;
+            line-height: 18px;
+            color: $textColor;
+            &:hover{
+                color: $textHoverColor;
+            }
+        }
+        input[type='text'],
+        input[type='email'],
+        input[type='password']{
+            background: #FFFFFF;
+            border: 1px solid $borderColor;
+            box-sizing: border-box;
+            border-radius: 4px;
+            width: 270px;
+            height: 50px;
+            padding: 20px;
+        }
+        button[type='submit']{
+            width: 227px;
+            height: 50px;
+            left: 375px;
+            top: 578px;
+            background: $textColor;
+            border-radius: 4px;
+            color: white;
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 18px;
+            outline: none;
+            &:hover{
+                cursor: pointer;
+                backdrop-filter: blur(15);
+                box-shadow: 0 0 10px rgba(0,0,0,0.8);
+                transition: 0.3s;
+            }
+            transition: 0.3s;
+        }
+        .display-errors{
+            font-family: Inter;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 15px;
+            line-height: 18px;
+            color: red;
+            opacity: 0;
+            transition: 0.3s;
+        }
+    }
+    &-field{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        &:not(:last-of-type){
+            margin-bottom: 15px;
+        }
+    }
+    &-title{
+        font-family: Inter;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 15px;
+        line-height: 18px;
+    }
+
+}
+.error{
+    border-color: red !important;
+}

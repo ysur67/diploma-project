@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block crumbs %}
+    <div class="crumbs">
+        <a href="{% url 'index_page' %}" class="crumb">Главная</a>
+        <a class="crumb">Личный кабинет</a>
+    </div>
+{% endblock crumbs %}
+
+{% block page_title %}
+    <span class="content-title">Личный кабинет</span>
+{% endblock page_title %}  
+
+
+{% block content %}
+    <div class="user-content">
+        {{request.user.username}}
+    </div>
+{% endblock content %}

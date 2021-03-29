@@ -2,6 +2,8 @@ const gulp = require('gulp');
 const sass = require('gulp-sass');
 const uglify = require('gulp-uglify-es').default;
 const named = require('vinyl-named');
+const webpack = require('webpack');
+const webpackStream = require('webpack-stream');
 
 function sassTask(done){
     return gulp.src([
@@ -12,7 +14,7 @@ function sassTask(done){
             errorLogToConsole: true,
         }))
         .on('error', console.log.bind(console))
-        .pipe(gulp.dest('static/css/pages'))
+        .pipe(gulp.dest('static/css/'))
         done()
 }
 
@@ -27,11 +29,35 @@ function jsTask(done) {
         'src/js/*.js'
     ])
         .pipe(named()) //Сохраняем название точек
+        .pipe(webpackStream({
+            mode: "development",
+            output: {
+                filename: "[name].js",
+                path: __dirname + '.',
+            },
+            module: {
+                rules: [
+                    {
+                        exclude: /node_modules/, //runtime ищет не там где надо
+                        use: {
+                            loader: 'babel-loader',
+                            options: {
+                                presets: ['@babel/preset-env'],
+                                plugins: [
+                                    ['@babel/plugin-proposal-class-properties'],
+                                    ['@babel/plugin-transform-runtime'],
+                                ]
+                            }
+                        }
+                    },
+                ],
+            },
+        }), webpack)
         .pipe(uglify()) //Убираем переносы
         .on('error', function () {
             this.emit('end');
         })
-        .pipe(gulp.dest('static/js/pages/'))
+        .pipe(gulp.dest('static/js/'))
     done()
 }
 

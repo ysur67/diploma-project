@@ -13,7 +13,6 @@ from rest_framework.routers import DefaultRouter
 
 
 router = DefaultRouter()
-router.register(r'api/products', ProductRestViewSet, basename='product')
 router.register(r'api/category', CategoryRestViewSet, basename='category')
 
 
@@ -22,7 +21,8 @@ app_name = 'catalog'
 urlpatterns = [
     path('catalog/', CatalogView.as_view(), name='category_list'),
     path('catalog/<slug>/', CategoryJSONDetail.as_view(), name='category_detail'),
-    path('product/<product_slug>/',ProductDetail.as_view(), name='product_detail'),
+    path('product/<product_slug>/', ProductDetail.as_view(), name='product_detail'),
+    path('api/products/<slug>/', ProductRestViewSet.as_view(), name='api_product_list')
 ]
 
 urlpatterns += router.urls

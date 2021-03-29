@@ -5,6 +5,12 @@
     display: flex;
     align-items: center;
     justify-content: baseline;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 36px;
+    line-height: 44px;
+    color: $textColor;
 }
 
 .product-list-title{
@@ -33,7 +39,7 @@
     font-weight: 600;
     font-size: 16px;
     line-height: 26px;
-    border-bottom: 1px solid $borderColor;
     display: block;
     padding-bottom: 17px;
+    border-bottom: 1px solid $borderColor;
 }

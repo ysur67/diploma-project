@@ -36,9 +36,9 @@ class AttributeAdmin(admin.ModelAdmin):
 
 @admin.register(AttributeValue)
 class AttributeValueAdmin(admin.ModelAdmin):
-    search_fields = ('value__startswith',)
+    search_fields = ('value__startswith','id_1c__icontains')
     # readonly_fields = ('id_1c',)
 
 @admin.register(ProductAttributeValue)
 class ProductAttributeValueAdmin(admin.ModelAdmin):
-    search_fields = ('product__startswith',)
+    search_fields = ('attribute_value__id_1c__icontains',)

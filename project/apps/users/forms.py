@@ -21,6 +21,9 @@ class FormMixin(forms.Form):
 
 
 class RegistrationForm(FormMixin):
+    class Meta:
+        model = User
+        
     email = forms.EmailField(
         widget=forms.EmailInput(
             attrs={
@@ -36,6 +39,13 @@ class RegistrationForm(FormMixin):
         ),
         label="Подтверждение пароля")
 
+    field_order = [
+        'username',
+        'email',
+        'password',
+        'password_confirmation'
+    ]
+        
 
 class LoginForm(FormMixin):
     pass

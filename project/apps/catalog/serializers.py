@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from apps.catalog.models import Category, Product
+from apps.catalog.models import Category, Product, AttributeValue
 from rest_framework import permissions
 
 
@@ -48,7 +48,15 @@ class CategoryDetailSerializer(serializers.ModelSerializer):
         exclude = ('rght', 'lft', 'tree_id', 'parent', 'level')
 
 
-class ProductListSerializer(serializers.ModelSerializer):
+class AttributeValueSerializer(serializers.ModelSerializer):
+
+    attribute = serializers.SlugRelatedField('title', read_only=True)
+
     class Meta:
-        model = Product
+        model = AttributeValue
         fields = '__all__'
+
+
+class FitlerSetSerializer(serializers.Serializer):
+    title = serializers.CharField()
+    values = AttributeValueSerializer(many=True)

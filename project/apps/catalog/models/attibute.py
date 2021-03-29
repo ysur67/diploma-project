@@ -79,4 +79,20 @@ class ProductAttributeValue(models.Model):
        verbose_name = 'Значние свойства товара'
        verbose_name_plural = 'Значения свойств товаров'
 
+
+class FilterSet:
+    """Represents a filter set, that
+    should be generated when 
+    you've taken the values
+
+    {title} - Attribute title
+    {values} - All the values
+    of attribute
+    """
+    def __init__(self, title: str, values=None):
+        self.title = title
+        self.values = values if values is not None\
+            else []
     
+    def set_value(self, value):
+        self.values.append(value)

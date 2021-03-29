@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="{{site_settings.favicon.url}}" type="image/png">
     <link rel="stylesheet" href={% static 'css/bootstrap-grid.min.css' %}>
-    <link rel="stylesheet" type="text/css" href="{% static '/css/pages/scss/main.css' %}" >
+    <link rel="stylesheet" type="text/css" href="{% static '/css/scss/main.css' %}" >
+    <script src="{% static 'js/jquery.js' %}"></script>
     <title>{{site_settings.site_name}}</title>
     {% block styles %}{% endblock styles %}
 </head>
@@ -21,6 +22,7 @@
     <div class="page-title">
         {% block page_title %}{% endblock page_title %}
     </div>
+    
     <div class="page-content">
         {% block content %}{% endblock content %}
     </div>
@@ -28,5 +30,7 @@
     </section>
     <footer class="footer">
     </footer>
+
+    {% block extra_scripts %}{% endblock extra_scripts %}
 </body>
 </html>

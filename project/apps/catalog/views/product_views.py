@@ -7,8 +7,9 @@ from apps.catalog.serializers import (
     ProductListSerializer
     )
 from rest_framework.response import Response
-from rest_framework import generics, viewsets
-from django.shortcuts import get_object_or_404 
+from rest_framework import generics, viewsets, mixins
+from django.shortcuts import get_object_or_404
+from rest_framework.decorators import action
 
 
 class ProductDetail(DetailView):
@@ -24,9 +25,18 @@ class ProductDetail(DetailView):
         return context
 
 
-class ProductRestViewSet(viewsets.ModelViewSet):
-    queryset = Product.objects.filter(active=True)
+class ProductRestViewSet(generics.ListAPIView):
     serializer_class = ProductDetailSerializer
-
-    def perform_create(self, serializer):
-        serializer.save()
+    
+    def get_queryset(self):
+        if self.kwargs['slug']:
+            category = Category.objects.get(
+                slug=self.kwargs['slug']
+            )
+        else:
+            category = Category.objects.first()
+        products = Product.objects.filter(
+            category=category
+        )
+        page = self.paginate_queryset(products)
+        return page

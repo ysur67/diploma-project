@@ -27,7 +27,8 @@ class RegistrationView(generic.FormView):
             user.save()
             return JsonResponse({
                 'errors': False,
-                'message': 'Пользователь успешно создан!'
+                'message': 'Пользователь успешно создан!',
+                'redirect': reverse_lazy('catalog:category_list')
             })
         elif password != password_confirmation:
             return JsonResponse({
@@ -80,6 +81,15 @@ class LoginView(generic.FormView):
                         не существует!'
                 })
 
+    def form_invalid(self, form):
+        return JsonResponse({
+            'errors': True,
+            'fields': form.errors
+        })
+
+
+class ProfileView(generic.TemplateView):
+    template_name = 'users/profile.html'
 
 def user_exists(username: str, email: str) -> bool:
     """Checks if user is already in db
