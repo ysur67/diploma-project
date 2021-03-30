@@ -11,6 +11,7 @@ urlpatterns = [
     path('', IndexView.as_view(), name='index_page'),
     path('', include('apps.catalog.urls')),
     path('', include('apps.users.urls')),
+    path('', include('apps.shop.urls')),
     path('api-auth/', include('rest_framework.urls')),
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.authtoken')),    

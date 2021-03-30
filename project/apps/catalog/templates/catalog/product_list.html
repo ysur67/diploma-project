@@ -15,10 +15,10 @@
 {% endblock crumbs %}
 
 {% block page_title %}
-<span class="content-title">
-    <span class="product-list-title">{{category.title}}</span>
-    <span class="product-amount-title">{{product_list.count}} товаров</span>
-</span>
+    <span class="content-title">
+        <span class="product-list-title">{{category.title}}</span>
+        <span class="product-amount-title">{{product_list.count}} товаров</span>
+    </span>
 {% endblock page_title %}
 
 {% block content %}
@@ -63,6 +63,7 @@
 
 {% block extra_scripts %}
     <script src="{% static 'js/category.js' %}"></script>
+    <script src="{% static 'js/shop.js' %}"></script>
     <script>
         $.ajax({
             url: '/api/products/{{category.slug}}',
@@ -75,7 +76,7 @@
 
         function setProducts(products){
             products.forEach(product => {
-                console.log({product})
+                var item = product;
             })
         }
     </script>

@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block crumbs %}
+    <div class="crumbs">
+        <a href="{% url 'index_page' %}" class="crumb">Главная</a>
+        <a class="crumb">Корзина</a>
+    </div>
+{% endblock crumbs %}
+
+{% block page_title %}
+    <span class="content-title">
+        <span class="product-list-title">Корзина</span>
+    </span>
+{% endblock page_title %}
+
+{% block content %}
+    <div class="cart-content">
+        <table class="items-list">
+            <thead>
+                <tr>
+                    <td>Ваш заказ</td>
+                    <td>Цена</td>
+                    <td>Количество</td>
+                    <td>Сумма</td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody class='table-body'>
+                {% for item in cart.items.all %}
+                    <tr>
+                        <td class="item-product">
+                            {% if item.product.image.url %}
+                                <img src="{{ item.product.image.url }}" alt="{{ item.product.title }}" class='item-img'>
+                            {% else %}
+                                <img src="{% static 'image/placeholder.png' %}" alt="{{ item.product.title }}">
+                            {% endif %}
+                            <a href='{{item.product.get_absolute_url}}' class="item-title">
+                                {{item.product.title}}
+                            </a>
+                        </td>
+                        <td>
+                            <div class="prices">
+                                <div class="price">
+                                    {{ item.product.price }} Р
+                                </div>
+                            </div>
+                           
+                        </td>
+                        <td>{{ item.amount }}</td>
+                        <td>{{ item.total }}</td>
+                        <td>
+                            <div class="sn-remove">
+                                <img src={% static 'image/cross.svg' %} alt="remove item" data-id="{{item.id}}" data-href="{% url 'shop:remove_item' %}">
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <span class="cart-total">
+            Итого: {{cart.total}} Р
+        </span>
+    </div>
+{% endblock content %}
+
+
+{% block extra_scripts %}
+    <script src="{% static 'js/shop.js' %}"></script>
+{% endblock extra_scripts %}

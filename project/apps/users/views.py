@@ -28,7 +28,7 @@ class RegistrationView(generic.FormView):
             return JsonResponse({
                 'errors': False,
                 'message': 'Пользователь успешно создан!',
-                'redirect': reverse_lazy('catalog:category_list')
+                'redirect': reverse_lazy('account:login')
             })
         elif password != password_confirmation:
             return JsonResponse({
@@ -66,7 +66,7 @@ class LoginView(generic.FormView):
                 user=user)
             return JsonResponse({
                 'errors': False,
-                'redirect': reverse_lazy('catalog:category_list') 
+                'redirect': reverse_lazy('account:profile') 
             })
         else:
             if user_exists(username, ''):

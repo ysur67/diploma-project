@@ -1,5 +1,5 @@
 {% load static %}
-<form action='api/addtocart' class="product-wide" data-id="{{product.id}}">
+<form action="{% url 'shop:add_item' %}" class="product-wide" data-id="{{product.id}}">
     <img src={% if product.image %}{{product.image.url}}{% else %}{% static 'image/placeholder.png' %}{% endif %} alt="product_image">
     <a href='{{product.get_absolute_url}}'>{{product.title}}</a>
     <div class="prices">
@@ -16,5 +16,5 @@
             </span>
         {% endif %}
     </div>
-    <button class="addToCard" type='submit'>В корзину</button>
+    <button class="sn-product" type='submit'>В корзину</button>
 </form>
