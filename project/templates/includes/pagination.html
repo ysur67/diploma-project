@@ -1,18 +1,32 @@
 <div class="pagination">
     <span class="step-links">
         {% if page_obj.has_previous %}
-            <a href="?page={{ page_obj.previous_page_number }}" class='page'><</a>
+            {% if request.GET %}
+                <a href="{{ request.get_full_path }}&page={{ page_obj.previous_page_number }}" class='page'><</a>
+            {% else %}
+                <a href="?page={{ page_obj.previous_page_number }}" class='page'><</a>
+            {% endif %}
         {% endif %}
         {% for page in page_obj.paginator.page_range %}
             {% if page_obj.number == page %}
                 <a class="page active">{{page}}</a>
             {% else %}
-                <a href="?page={{page}}" class="page">{{page}}</a>
+                {% if request.GET %}
+                    <a href="{{ request.get_full_path }}&page={{page}}" class="page">{{page}}</a>
+                {% else %}
+                    <a href="?page={{page}}" class="page">{{page}}</a>
+                {% endif %}
+                
             {% endif %}
         {% endfor %}
 
         {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}" class='page'>></a>
+            {% if request.GET %}
+                <a href="{{ request.get_full_path }}&page={{ page_obj.next_page_number }}" class='page'>></a>
+            {% else %}
+                <a href="?page={{ page_obj.next_page_number }}" class='page'>></a>
+            {% endif %}
+            
         {% endif %}
     </span>
 </div>

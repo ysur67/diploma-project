@@ -33,4 +33,3 @@ services:
       - '80:80'
     volumes: 
       - ./project/static/:/static
-      

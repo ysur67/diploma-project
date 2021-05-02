@@ -1,0 +1,164 @@
+.order{
+    &-content{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    &-info{
+        width: 807px;
+        .sn-order-form{
+            width: 216px;
+            height: 50px;
+            background: #313D49;
+            border-radius: 4px;
+            outline: none;
+            color: white;
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 18px;
+            &:hover{
+                background-color: #151B21;
+                cursor: pointer;
+            }
+        }
+    }
+    &-products{
+        display: flex;
+        flex-direction: column;
+        width: 370px;
+        min-height: 100px;
+        border: 1px solid $borderColor;
+        border-radius: 4px;
+        padding: 20px;
+        align-self: flex-start;
+        h3{
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 18px;
+            line-height: 26px;
+            color: $textColor;
+        }
+        h1{
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 36px;
+            line-height: 44px;
+            color: $textColor;
+        }
+        &__item{
+            border-bottom: 1px solid $borderColor;
+            &:last-child{
+                border-bottom: none;
+            }
+            p{
+                font-family: Inter;
+                font-style: normal;
+                font-weight: normal;
+                font-size: 10px;
+                line-height: 12px;
+                color: $grayText;
+            }
+            h2{
+                font-family: Inter;
+                font-style: normal;
+                font-weight: normal;
+                font-size: 16px;
+                line-height: 22px;
+                color: $textColor;
+                display: inline;
+            }
+            h3{
+                font-family: Inter;
+                font-style: normal;
+                font-weight: normal;
+                font-size: 16px;
+                line-height: 22px;
+                color: $grayText;
+                display: inline;
+            }
+            h1{
+                font-family: Inter;
+                font-style: normal;
+                font-weight: 600;
+                font-size: 18px;
+                line-height: 22px;
+                color: $textColor;
+            }
+
+        }
+        
+    }
+    &-part{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        margin-bottom: 30px;
+        &:last-child{
+            margin-bottom: 0px;
+        }
+        &__title{
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 24px;
+            line-height: 32px;
+            color: $textColor;
+        }
+        &__input{
+            width: 460px;
+            height: 50px;
+            border: 1px solid #C9D2DC;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-family: Inter;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 15px;
+            color: $grayText;
+            padding: 15px 16px;
+            &:last-child{
+                margin-bottom: 0px;
+            }
+        }
+        &__radio{
+            width: 150px;
+            border: 1px solid $grayText;
+            border-radius: 4px;
+            padding: 15px;
+            text-align: center;
+            font-family: Inter;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 16px;
+            color: $textColor;
+            margin: 15px 0px;
+            &:hover{
+                cursor: pointer;
+                border-color: $textHoverColor;
+                color: $textHoverColor;
+            }
+            input[type='radio']{
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                -ms-appearance: none;
+                -o-appearance: none;
+                appearance: none;
+                display: none;
+            }
+            
+        }
+        .checked{
+            border-color: $textHoverColor !important;
+            background-color: $textHoverColor !important;
+            color: white !important;
+        }
+        .comment{
+            min-height: 150px;
+        }
+    }
+}

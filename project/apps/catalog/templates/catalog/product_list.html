@@ -16,8 +16,13 @@
 
 {% block page_title %}
     <span class="content-title">
-        <span class="product-list-title">{{category.title}}</span>
-        <span class="product-amount-title">{{product_list.count}} товаров</span>
+        <span class="product-list-title">{{ category.title }}</span>
+        {% if request.GET.value %}
+            <span class="product-amount-title">{{ product_list.count }} товаров</span>
+        {% else %}
+            <span class="product-amount-title">{{ count }} товаров</span>
+        {% endif %}
+        
     </span>
 {% endblock page_title %}
 
@@ -37,8 +42,25 @@
             </div>
         </div>
         <div class="filter-set" style='max-height: 1000px'>
-            <form method='POST' id="filtering" action="{{request.path}}">
-                {% csrf_token %}
+            <form id="filtering" action="{{request.path}}">
+                {% for attribute in attribute_list %}
+                    <div class="filter-value">
+                        <span class="value-title">{{ attribute.title }}</span>
+                        <div class="values-list">
+                            {% for value in attribute.values %}
+                                <div class="value-item">
+                                    <label class="value-item">
+                                        <input type="checkbox" name='value' value="{{ value.id }}">{{ value.value }}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+                <div class='filter-controls'>
+                    <button type="submit" class='filter-button submit sn-filters'>Показать</button>
+                    <button type="reset" class='filter-button cancel'>Сбросить</button>
+                </div>
             </form>
         </div>
     </div>
@@ -52,7 +74,7 @@
             </form>
         </div>
         <div class="products-content__list">
-            {% for product in object_list %}
+            {% for product in product_list %}
                 {% include 'catalog/includes/product.html' with product=product %}
             {% endfor %}
         </div>
@@ -66,11 +88,11 @@
     <script src="{% static 'js/shop.js' %}"></script>
     <script>
         $.ajax({
-            url: '/api/products/{{category.slug}}',
+            type:'POST',
+            url: '/api/filterset/{{category.slug}}/',
             dataType: 'json',
             success: function(response){
-                var products = response.results
-                setProducts(products)
+                displayFilters(response)
             }
         })
 
