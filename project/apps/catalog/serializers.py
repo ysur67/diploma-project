@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from apps.catalog.models import Category, Product, AttributeValue
+from apps.catalog.models import Category, Product, AttributeValue, ProductAttributeValue
 from rest_framework import permissions
 
 
@@ -54,6 +54,14 @@ class AttributeValueSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AttributeValue
+        fields = '__all__'
+
+class ProductAttributeValueSerializer(serializers.ModelSerializer):
+    product = serializers.SlugRelatedField('title', read_only=True)
+    attribute = serializers.SlugRelatedField('title', read_only=True)
+
+    class Meta:
+        model = ProductAttributeValue
         fields = '__all__'
 
 

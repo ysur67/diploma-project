@@ -15,7 +15,7 @@
 {% endblock page_title %}
 
 {% block content %}
-    <div class="cart-content">
+    <div class="cart-content" {% if not cart.get_items %}style='display: none;'{% endif %}>
         <table class="items-list">
             <thead>
                 <tr>
@@ -27,40 +27,27 @@
                 </tr>
             </thead>
             <tbody class='table-body'>
-                {% for item in cart.items.all %}
-                    <tr>
-                        <td class="item-product">
-                            {% if item.product.image.url %}
-                                <img src="{{ item.product.image.url }}" alt="{{ item.product.title }}" class='item-img'>
-                            {% else %}
-                                <img src="{% static 'image/placeholder.png' %}" alt="{{ item.product.title }}">
-                            {% endif %}
-                            <a href='{{item.product.get_absolute_url}}' class="item-title">
-                                {{item.product.title}}
-                            </a>
-                        </td>
-                        <td>
-                            <div class="prices">
-                                <div class="price">
-                                    {{ item.product.price }} Р
-                                </div>
-                            </div>
-                           
-                        </td>
-                        <td>{{ item.amount }}</td>
-                        <td>{{ item.total }}</td>
-                        <td>
-                            <div class="sn-remove">
-                                <img src={% static 'image/cross.svg' %} alt="remove item" data-id="{{item.id}}" data-href="{% url 'shop:remove_item' %}">
-                            </div>
-                        </td>
-                    </tr>
-                {% endfor %}
+               {% for item in cart.get_items %}
+                   {% include 'shop/includes/cart_item.html' with item=item %}
+               {% endfor %}
             </tbody>
         </table>
-        <span class="cart-total">
-            Итого: {{cart.total}} Р
+        <span class="cart-total-price">
+            Итого: <span class='cart-total'>{{cart.total}} ₽</span>
         </span>
+        <a href="{% url 'shop:order_register' %}" class="order-create">Сделать заказ</a>
+    </div>
+    <div class="cart-empty" style={% if cart.get_items %}'display: none;'{% else %}'display:flex;'{% endif %}>
+        <div class="empty-info">
+            <img src="{% static 'image/empty-cart.svg' %}" alt="cart is empty">
+            <span class="empty-title">
+                <h1>Ваша корзина пуста</h1>
+                <p>Для выбора товаров по параметрам перейдите в каталог</p>
+            </span>
+        </div>
+        <a href="{% url 'catalog:category_list' %}" class='to-catalog'>
+            Перейти в каталог
+        </a>
     </div>
 {% endblock content %}
 

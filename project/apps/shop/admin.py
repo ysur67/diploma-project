@@ -1,11 +1,26 @@
 from django.contrib import admin
-from .models import Cart, CartItem
+from .models import (
+    Order, OrderItem,
+    ShippingType, OrderStatus, PaymentType
+)
 
 
-@admin.register(Cart)
-class CartAdmin(admin.ModelAdmin):
+class ItemInline(admin.TabularInline):
+    model = OrderItem
+    exclude = ('total', )
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    inlines = [ItemInline,]
+
+@admin.register(ShippingType)
+class ShippingAdmin(admin.ModelAdmin):
     pass
 
-@admin.register(CartItem)
-class CartItemAdmin(admin.ModelAdmin):
+@admin.register(OrderStatus)
+class StatusAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(PaymentType)
+class StatusAdmin(admin.ModelAdmin):
     pass

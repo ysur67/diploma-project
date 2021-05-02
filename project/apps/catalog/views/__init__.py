@@ -1,7 +1,8 @@
 from .category_views import (
     CatalogView,
     CategoryJSONDetail,
-    CategoryRestViewSet,
+    # CategoryRestViewSet,
+    # FilterViewSet
 )
 
 from .product_views import (

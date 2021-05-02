@@ -15,7 +15,24 @@
 
 
 {% block content %}
-    <div class="user-content">
-        {{request.user.username}}
+<div class="user-content">
+    <div class="user-menu">
+           <span class="user-menu__name">Личный кабинет <strong>{{request.user.username}}</strong></span>
+           <div class="user-options">
+                <a class="user-options__item">
+                    Личные данные
+                </a>
+                <a class="user-options__item">
+                    Ваши заказы
+                </a>
+                <a class="user-options__item">
+                    Сменить пароль
+                </a>
+                <a class="user-options__item">
+                    Выход
+                </a>
+           </div>
     </div>
+</div>
+    
 {% endblock content %}

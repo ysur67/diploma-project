@@ -55,7 +55,9 @@
                     {% else %}
                         <a href="{% url 'account:login' %}"><img src={% static 'image/user.svg' %} alt="user">Личный кабинет</a>
                     {% endif %}
-                    <a href="{% url 'shop:cart' %}"><img src={% static 'image/cart.svg' %} alt="cart"> <span class='cart-count'>{% count_cart request=request %}</span></a>
+                    <a href="{% url 'shop:cart' %}"><div class="cart-images">
+                        <img src={% static 'image/cart.svg' %} alt="cart">
+                    </div> <span class='cart-count'>{% count_cart request=request %}</span></a>
                 </div>
             </div>
         </div>

@@ -1,0 +1,31 @@
+{% load static %}
+
+{% block cart_item %}
+<tr>
+   <td class="item-product">
+       {% if item.product.image %}
+           <img src="{{ item.product.image.url }}" alt="{{ item.product.title }}" class='item-img'>
+       {% else %}
+           <img src="{% static 'image/placeholder.png' %}" alt="{{ item.product.title }}">
+       {% endif %}
+       <a href="{{item.product.get_absolute_url}}" class="item-title">
+           {{item.product.title}}
+       </a>
+   </td>
+   <td>
+       <div class="prices">
+           <div class="price">
+               {{ item.product.price }} ₽
+           </div>
+       </div>
+      
+   </td>
+   <td>{{ item.amount }}</td>
+   <td>{{ item.total }}</td>
+   <td>
+       <div class="sn-remove">
+           <img src={% static 'image/cross.svg' %} alt="remove item" data-id="{{item.product.id}}" data-href="{% url 'shop:remove_item' %}">
+       </div>
+   </td>
+</tr>
+{% endblock cart_item %}
