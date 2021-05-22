@@ -1,8 +1,11 @@
 from django.db import models
+from django.db.models.query import QuerySet
 from apps.catalog import models as custom_models
 from django.core.validators import MinValueValidator
 from django.urls import reverse
 from django.db.models import Max, Min
+# from .attibute import Attribute, AttributeValue, ProductAttributeValue
+from .. import models as custom_models
 
 
 class Product(custom_models.CatalogMixin):
@@ -63,31 +66,38 @@ class Product(custom_models.CatalogMixin):
             "product_slug": self.slug})
 
     @classmethod
-    def get_filters(cls, products):
-        price_info = products.aggregate(min_value=Min('price'),
-            max_value=Max('price'))
-        price_min = int(price_info['min_value'])
-        price_max = int(price_info['max_value'])
-        data = {
-            'attributes': cls._attributes_for_filtering(products),
-            'price_min': price_min,
-            'price_max': price_max
-        }
-        return data
+    def get_filters(cls, product_qs: QuerySet) -> list:
+        """
+        Retruns list of related filters
 
-    @staticmethod
-    def _attributes_for_filtering(products):
-        attributes = list(custom_models.ProductAttributeValue.objects.filter(product__in=products).distinct())
-        filter_titles = {}
-        filter_values = {}
-        result = {}
-        for item in attributes:
-            attr_id, title = item.attribute_value.attribute.id_1c, item.attribute_value.attribute.title
-            filter_titles[attr_id] = title
+        `product_qs` -> QuerySet of Product objects
+        """
+        # Получаем все Товар-Атрибут-Значения исходя из товаров в запросе
+        product_attribute_value = custom_models.ProductAttributeValue.objects.filter(
+            product__in=product_qs
+        )
+        # Получаем все Атрибут-Значения исходя из полученных выше
+        attribute_values = custom_models.AttributeValue.objects.filter(
+            products__in=product_attribute_value
+        ).distinct('value')
+        # Получаем все названия атрибутов
+        titles = attribute_values.distinct('attribute')
+        # Пытаемся создать словарь ТайтлАтрибута = [Значения атрибута]
+        filter_list = []
+        for attribute_value in titles:
+            filter_ = custom_models.FilterSet(attribute_value.attribute.title)
+            for value in attribute_values.filter(attribute=attribute_value.attribute):
+                filter_.set_value(value)
+            filter_list.append(filter_)
+        return filter_list
 
-        for item in attributes:
-            attr_id, value = item.attribute_value.attribute.id_1c, item.attribute_value.value
-            filter_values[attr_id] = value
-        result['titles'] = filter_titles
-        result['values'] = filter_values
-        return result
+    @classmethod
+    def filter_products(cls, products_qs: QuerySet, request) -> QuerySet:
+        values_list = request.GET.getlist('value')
+
+        if values_list:
+            products_qs = products_qs.filter(
+                attributes__attribute_value__id__in=values_list
+            )
+
+        return products_qs, values_list

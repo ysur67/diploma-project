@@ -1,32 +1,25 @@
 <div class="pagination">
     <span class="step-links">
-        {% if page_obj.has_previous %}
-            {% if request.GET %}
-                <a href="{{ request.get_full_path }}&page={{ page_obj.previous_page_number }}" class='page'><</a>
-            {% else %}
-                <a href="?page={{ page_obj.previous_page_number }}" class='page'><</a>
-            {% endif %}
+        {% if PAGIN.prev %}
+            <a href="?page={{ PAGIN.prev }}" class='page active-page' data-href="{{ PAGIN.prev }}"><</a>
         {% endif %}
-        {% for page in page_obj.paginator.page_range %}
-            {% if page_obj.number == page %}
-                <a class="page active">{{page}}</a>
+
+        {% if PAGIN.first %}
+            <a class="page active-page" href="?page={{ PAGIN.first }}" data-href="1">1</a>
+            <a class="page ">...</a>
+        {% endif %}
+
+        {% for page in PAGIN.pages %}
+            {% if page == PAGIN.page %}
+                <a class="page active" id="current-page" data-href={{ page }}>{{ page }}</a>
             {% else %}
-                {% if request.GET %}
-                    <a href="{{ request.get_full_path }}&page={{page}}" class="page">{{page}}</a>
-                {% else %}
-                    <a href="?page={{page}}" class="page">{{page}}</a>
-                {% endif %}
-                
+                <a href="?page={{page}}" class="page active-page" data-href="{{ page }}">{{page}}</a>     
             {% endif %}
         {% endfor %}
 
-        {% if page_obj.has_next %}
-            {% if request.GET %}
-                <a href="{{ request.get_full_path }}&page={{ page_obj.next_page_number }}" class='page'>></a>
-            {% else %}
-                <a href="?page={{ page_obj.next_page_number }}" class='page'>></a>
-            {% endif %}
-            
+
+        {% if PAGIN.next %}
+            <a href="?page={{ PAGIN.next }}" class='page active-page' data-href="{{ PAGIN.next }}">></a>            
         {% endif %}
     </span>
 </div>

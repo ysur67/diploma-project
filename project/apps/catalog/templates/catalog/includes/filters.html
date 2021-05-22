@@ -1,0 +1,23 @@
+
+<div id="filtering"  class="filter-set" style='max-height: 1000px'>
+    <form action="{{request.path}}" method='GET' id='sn-filter'>
+        {% for attribute in attribute_list %}
+            <div class="filter-value">
+                <span class="value-title">{{ attribute.title }}</span>
+                <div class="values-list">
+                    {% for value in attribute.values %}
+                        <div class="value-item">
+                            <label class="value-item">
+                                <input type="checkbox" name='value' {% if value.id in request_values %}checked{% endif %} value="{{ value.id }}">{{ value.value }}
+                            </label>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+        <div class='filter-controls'>
+            <button type="submit" class='filter-button submit sn-filters'>Показать</button>
+            <button type="reset" class='filter-button cancel'>Сбросить</button>
+        </div>
+    </form>
+</div>

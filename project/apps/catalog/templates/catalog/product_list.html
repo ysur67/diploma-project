@@ -20,7 +20,7 @@
         {% if request.GET.value %}
             <span class="product-amount-title">{{ product_list.count }} товаров</span>
         {% else %}
-            <span class="product-amount-title">{{ count }} товаров</span>
+            <span class="product-amount-title">{{ total }} товаров</span>
         {% endif %}
         
     </span>
@@ -41,28 +41,8 @@
                 {% endif %}
             </div>
         </div>
-        <div class="filter-set" style='max-height: 1000px'>
-            <form id="filtering" action="{{request.path}}">
-                {% for attribute in attribute_list %}
-                    <div class="filter-value">
-                        <span class="value-title">{{ attribute.title }}</span>
-                        <div class="values-list">
-                            {% for value in attribute.values %}
-                                <div class="value-item">
-                                    <label class="value-item">
-                                        <input type="checkbox" name='value' value="{{ value.id }}">{{ value.value }}
-                                    </label>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                {% endfor %}
-                <div class='filter-controls'>
-                    <button type="submit" class='filter-button submit sn-filters'>Показать</button>
-                    <button type="reset" class='filter-button cancel'>Сбросить</button>
-                </div>
-            </form>
-        </div>
+        {% include 'catalog/includes/filters.html' %}
+        {% comment %} {{ template_filters }} {% endcomment %}
     </div>
     <div class="products-content">
         <div class="products-content__sorting">
@@ -74,11 +54,17 @@
             </form>
         </div>
         <div class="products-content__list">
-            {% for product in product_list %}
+            {% comment %} {% for product in product_list %}
                 {% include 'catalog/includes/product.html' with product=product %}
+            {% endfor %} {% endcomment %}
+
+            {% for product in products %}
+                {{ product }}
             {% endfor %}
         </div>
-        {% include 'includes/pagination.html' %}
+        <div class="pagination">
+            {{ pagination }}
+        </div>
     </div>
 </div>
 {% endblock content %}
@@ -86,20 +72,4 @@
 {% block extra_scripts %}
     <script src="{% static 'js/category.js' %}"></script>
     <script src="{% static 'js/shop.js' %}"></script>
-    <script>
-        $.ajax({
-            type:'POST',
-            url: '/api/filterset/{{category.slug}}/',
-            dataType: 'json',
-            success: function(response){
-                displayFilters(response)
-            }
-        })
-
-        function setProducts(products){
-            products.forEach(product => {
-                var item = product;
-            })
-        }
-    </script>
 {% endblock extra_scripts %}

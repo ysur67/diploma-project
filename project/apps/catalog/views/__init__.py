@@ -3,6 +3,8 @@ from .category_views import (
     CategoryJSONDetail,
     # CategoryRestViewSet,
     # FilterViewSet
+    SearchAPIView,
+    SearchJSONView
 )
 
 from .product_views import (

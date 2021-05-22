@@ -11,49 +11,104 @@ function changeDisplay(event){
     }
 }
 
-function submitFilters(event){
+function replaceCatalogData(event, data) {
+    replaceFilters(data['template_filters']);
+    replacePagination(data['pagination']);
+    replaceProductList(data['products']);
+}
+
+function replaceProductList(data) {
+    $('.products-content__list').html(data);
+}
+
+function replaceFilters(data) {
+    $('#filtering').replaceWith(data);
+}
+
+function replacePagination(data) {
+    $('.pagination').html(data);
+}
+
+function submitFilters(event, updatePagin=false){
     event.preventDefault();
-    var form = event.target.closest('form')
-    var data = new FormData(form)
-    request('get', window.location.href, data)
+    var form = $(event.target)
+    var data = form.serialize();
+    $.ajax({
+        url: window.location.href,
+        type: 'GET',
+        dataType: 'json',
+        data: data,
+        success: function (data) {
+            replaceProductList(data['products']);
+            if(updatePagin)
+                replacePagination(data['pagination']);
+        },
+        error: function (error) {
+            console.log(error)
+        }
+    })
+}
+
+function changePage(event) {
+    event.preventDefault();
+    var target = event.target;
+    var page = target.dataset.href;
+    var form = $('#sn-filter')
+    var formData = form.serialize()
+    // var requestData = {
+    //     page: page
+    // }
+    var requestData = formData + `&page=${page}`
+    console.log(requestData)
+    $.ajax({
+        url: window.location.href,
+        type: 'GET',
+        dataType: 'json',
+        data: requestData,
+        success: function(data) {
+            replacePagination(data['pagination']);
+            replaceProductList(data['products']);
+        },
+        error: function(error) {
+            console.log(error);
+        }
+    })
+}
+
+function updateCatalog(event, page=null) {
+    let requestData = {}
+    if(page)
+        requestData.page = page;
+    $.ajax({
+        url: window.location.pathname,
+        type: 'GET',
+        dataType: 'json',
+        data: {page: page},
+        success: function (data) {
+            replaceCatalogData(event, data);
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
 }
 
 window.addEventListener("DOMContentLoaded", function() {
-    var fitlerTitles = document.querySelectorAll('.value-title');
-    fitlerTitles.forEach(title =>{
-        title.addEventListener('click', function(event){
-            changeDisplay(event)
-        })
+    updateCatalog();
+    $('body').on('click', '.value-title', function(event) {
+        changeDisplay(event);
+    });
+    $('body').on('submit', '#sn-filter', function(event){
+        submitFilters(event, true);
+    });
+    $('body').on('reset', '#sn-filter', function(event){
+        var pageElement = document.querySelector('#current-page');
+        var page = null;
+        if(pageElement)
+            page = pageElement.dataset.href;
+        updateCatalog(event, page);
+    });
+    $('body').on('click', '.active-page', function(event) {
+        changePage(event);
     })
-
-
-        // .then(() => {
-        //     var snButtons = document.querySelectorAll('.sn-filters')
-        //     snButtons.forEach(btn => {
-        //         btn.addEventListener('click', submitFilters)
-        //     })
-        // })
 });
-
-function displayFilters(response){
-    var attributes = response['attributes'];
-    console.log({attributes})
-    attributes.forEach(attribute =>{
-        function setAttributes(attribute){
-            let values = attribute.values;
-            let result = ``
-            values.forEach(value => {
-                result += `<div class='value-item'><label class='value-item'>
-                    <input type="checkbox" name="value" value='${value.id_1c}'>${value.value}</label>
-                    </div>`
-            })
-            return result
-        }
-        filterSet.innerHTML += `<div class='filter-value'>
-            <span class='value-title'>${attribute.title}</span>
-            <div class='values-list'>${setAttributes(attribute)}`
-    })
-    filterSet.innerHTML += `<div class='filter-controls'>
-    <button type="submit" class='filter-button submit sn-filters'>Показать</button>
-    <button type="reset" class='filter-button cancel'>Сбросить</button></div>`
-}

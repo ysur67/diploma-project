@@ -1,4 +1,6 @@
-from django.views.generic.detail import DetailView
+from django.views.generic.base import View
+from django.views.generic.detail import DetailView, SingleObjectTemplateResponseMixin
+from apps.main.views import JSONDetailView, JSONResponseMixin
 from django.views.generic.list import ListView
 from apps.catalog.models import (
     Category,
@@ -8,26 +10,9 @@ from apps.catalog.models import (
     FilterSet,
     ProductAttributeValue
 )
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from apps.catalog.serializers import (
-    CategoryListSerializer, 
-    CategoryDetailSerializer,
-    ProductListSerializer,
-    ProductAttributeValueSerializer,
-    AttributeValueSerializer,
-    FitlerSetSerializer,
-)
-from django.http import JsonResponse, HttpResponse
-from django.shortcuts import render
-from rest_framework import (
-    generics,
-    permissions,
-    viewsets
-)
-from rest_framework.decorators import action
-from django.db.models import Prefetch, Q
-from itertools import chain
+from django.http import JsonResponse
+from django.template.loader import get_template
+from apps.main.utils import pagination
 
 
 class CatalogView(ListView):
@@ -38,72 +23,92 @@ class CatalogView(ListView):
         return Category.objects.filter(active=True, parent=None)
 
 
-
-
-class CategoryJSONDetail(ListView):
+class CategoryJSONDetail(SingleObjectTemplateResponseMixin, JSONDetailView):
     model = Category
-    context_object_name = 'product_list'
+    context_object_name = 'category'
     template_name = 'catalog/product_list.html'
-    paginate_by = 10
 
-    def get(self, *args, **kwargs):
-        request = self.request.GET
-        if request.getlist('value'):
-            values_list = request.getlist('value')
-            self.object_list = self.get_queryset()
-            qs = self.object_list
-            context = self.get_context_data()
-            qs = qs.filter(
-                attributes__attribute_value__id__in=values_list
+    def render_to_response(self, context, **response_kwargs):
+        obj = context['object']
+        request = self.request
+        products = self.model.get_products(obj)
+        if self.request.is_ajax():
+            context['filters'] = Product.get_filters(products)
+            products, _ = Product.filter_products(products, request)
+        products_count = products.count()
+        context['total'] = products_count
+        context['tile'] = False
+        display_type = request.session.get('display_type', None)
+        if display_type == 'tile':
+            context['tile'] = True
+        if products_count:
+            try:
+                page = int(request.GET.get('page', 1))
+            except ValueError:
+                page = 1
+
+            pagin = pagination(products, page, 10, count=context['total'])
+            products = pagin.items
+            context['pagination'] = get_template(
+                "includes/pagination.html"
+            ).render({'PAGIN': pagin})
+            if products_count <= 10:
+                context['pagination'] = None
+            products_template = []
+            for product in products:
+                products_template.append(
+                    get_template('catalog/includes/product.html').render({
+                        'product': product,
+                    })
+
+                )
+            context['products'] = products_template
+
+        if self.request.is_ajax():     
+            context['template_filters'] = get_template(
+                'catalog/includes/filters.html'
+            ).render({
+                'attribute_list': context['filters'],
+            })
+            del (context["object"], context["view"], context['category'], context['filters'])
+            return self.render_to_json_response(context, **response_kwargs)
+
+        if not self.request.is_ajax():
+            del products
+            return super().render_to_response(context, **response_kwargs)
+
+
+class SearchAPIView(View):
+    def post(self, request, *args, **kwargs):
+        post_data = request.POST
+        search_string = post_data.get('search', None)
+        json_respone = {}
+        if not search_string:
+            json_respone['errors'] = False
+            json_respone['template'] = "По вашему запросу не найдено товаров"
+        
+        if search_string:
+            qs = Product.objects.filter(title__icontains=search_string).order_by('?')[:10]
+            if not qs.exists():
+                json_respone['template'] = "По вашему запросу не найдено товаров"
+                return JsonResponse(json_respone)
+            template = get_template('catalog/search.html').render({
+                'products': qs
+            })
+            json_respone['errors'] = False
+            json_respone['template'] = template
+
+        return JsonResponse(json_respone)
+
+
+class SearchJSONView(CategoryJSONDetail):
+
+    def get_qs(self, context):
+        request = self.request
+        post_data = request.POST
+        search = post_data.get('search', None)
+        if search:
+            qs = Product.objects.filter(
+                title__icontains=search
             )
-            context['product_list'] = qs
-            return render(
-                self.request,
-                self.template_name,
-                context=context
-            )
-        else:
-            return super().get(self.request)
-
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
-        qs = self.get_queryset()
-        context['category'] = Category.objects.get(
-            slug=self.kwargs['slug']
-        )
-        context['attribute_list'] = self.get_filter_set(qs)
-        context['count'] = qs.count()
-        return context
-
-    def get_queryset(self, *args, **kwargs):
-        obj = Category.objects.get(slug=self.kwargs['slug'])
-        if self.has_children(obj):
-            category_tree = obj.get_descendants(include_self=True)
-            products = Product.objects.filter(category__in=category_tree)
-        else:
-            products = Product.objects.filter(category=obj)
-        return products
-
-    def get_filter_set(self, qs):
-        # Получаем все Товар-Атрибут-Значения исходя из товаров в запросе
-        product_attribute_value = ProductAttributeValue.objects.filter(
-            product__in=qs
-        )
-        # Получаем все Атрибут-Значения исходя из полученных выше
-        attribute_values = AttributeValue.objects.filter(
-            products__in=product_attribute_value
-        ).distinct('value')
-        # Получаем все названия атрибутов
-        titles = attribute_values.distinct('attribute')
-        # Пытаемся создать словарь ТайтлАтрибута = [Значения атрибута]
-        filter_list = []
-        for attribute_value in titles:
-            filter_ = FilterSet(attribute_value.attribute.title)
-            for value in attribute_values.filter(attribute=attribute_value.attribute):
-                filter_.set_value(value)
-            filter_list.append(filter_)
-        serializer = FitlerSetSerializer(filter_list, many=True)
-        return serializer.data
-
-    def has_children(self, instance):
-        return True if len(instance.get_children()) >0 else False
+        return qs

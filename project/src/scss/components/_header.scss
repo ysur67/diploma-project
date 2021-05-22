@@ -74,7 +74,31 @@
                 padding: 10px 20px;
                 outline: none;
                 border: 1px solid #C0C0C0;
-                
+            }
+            .search-result{
+                z-index: 1;
+                position: fixed;
+                width: 470px;
+                box-shadow: 1px 28px 18px 15px rgba(60, 127, 193, 0.2);
+                top: 120px;
+                background-color: white;
+                padding: 20px;
+                .link {
+                    display: block;
+                    color: black;
+                    margin-bottom: 10px;
+                    &:hover{
+                        color: $textHoverColor;
+                    }
+                }
+                .help-title {
+                    display: block;
+                    color: $grayText;
+                    font-size: 12px;
+                    margin-bottom: 15px;
+                    border-bottom: 1px solid $grayText;
+                    padding-bottom: 5px;
+                }
             }
         }
         .header-menu{

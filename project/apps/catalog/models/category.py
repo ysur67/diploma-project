@@ -27,3 +27,14 @@ class Category(MPTTModel, custom_models.CatalogMixin):
 
     def get_absolute_url(self):
         return reverse("catalog:category_detail", kwargs={"slug": self.slug})
+
+    @classmethod
+    def get_products(self, instance):
+        qs = custom_models.Product.objects.filter(
+            category__in=instance.get_descendants(include_self=True),
+        )
+        qs = qs.distinct()
+
+        return qs.order_by("-id")
+
+
