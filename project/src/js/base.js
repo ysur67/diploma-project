@@ -16,11 +16,16 @@ function getCookie(name) {
 
 function sendSearchString(event){
     document.addEventListener('scroll', closeSearchResult)
+    document.onkeydown = function(evt) {
+        evt = evt || window.event;
+        if (evt.key == 'Escape') {
+            closeSearchResult()
+        }
+    }
     var target = event.target;
     var value = target.value;
     var form = target.closest('form')
     var url = form.getAttribute('action');
-    console.log(value)
     $.ajax({
         method: 'POST',
         url: url,
@@ -55,8 +60,6 @@ document.addEventListener('DOMContentLoaded', function(event){
     if(searchFields){
         searchFields.forEach(field => {
             field.addEventListener('input', sendSearchString);
-            // body.addEventListener('click')
-            // field.addEventListener('focusout', closeSearchResult)
         })
     }
     document.querySelector('#searchForm').addEventListener('submit', function(event) {

@@ -57,6 +57,12 @@ class Cart(models.Model):
             )
         self.save()
 
+    def clear(self, _):
+        self.items.all().delete()
+        self.total = 0
+        self.amount = 0
+        self.save()
+
     def remove_item(self, item_id):
         product = Product.objects.get(
             id=item_id
@@ -142,6 +148,8 @@ class UnauthCart:
             if item.product == cart_item.product:
                 self.items.pop(index)
 
+    def clear(self, request):
+        del self.items
 
 class UnauthCartItem:
     def __init__(self, product, amount):
@@ -154,6 +162,7 @@ class UnauthCartItem:
 
 
 def get_or_create_cart(request):
+    # TODO: В будущем поправить
     user = request.user
     if user.is_authenticated:
         cart, _ = Cart.objects.get_or_create(user=user)

@@ -1,0 +1,104 @@
+.account {
+    &-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+        padding: 10px 50px;
+        &__title {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 24px;
+            line-height: 32px;
+            color: $textColor;
+            margin-bottom: 20px;
+            display: block;
+        }
+        &__form {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            button {
+                padding: 16px 50px;
+                color: white;
+                font-family: Inter;
+                font-style: normal;
+                font-weight: 600;
+                height: 50px;
+                background: #313D49;
+                border-radius: 4px;
+                cursor: pointer;
+                &:hover{
+                    background: #151B21;
+                }
+            }
+        }
+        .form {
+            &-row{
+                display: flex;
+                flex-direction: column;
+                margin-bottom: 15px;
+                &__input{
+                    display: flex;
+                    flex-direction: column;
+                    input {
+                        width: 460px;
+                        height: 50px;
+                        border: 1px solid #C9D2DC;
+                        border-radius: 4px;
+                        font-family: Inter;
+                        font-style: normal;
+                        font-weight: normal;
+                        font-size: 15px;
+                        padding: 15px 16px;
+                        &.is-invalid {
+                            border-color: rgb(255, 69, 69);
+                            display: block !important;
+                        }
+                    }
+                    .error {
+                        color: rgb(255, 69, 69);
+                        font-family: Inter;
+                        font-style: normal;
+                        font-weight: normal;
+                        font-size: 12px;
+                        display: none;
+                    }
+                    .is-invalid {
+                        border-color: rgb(255, 69, 69);
+                        display: block !important;
+                    }
+                }
+                &__title {
+                    font-family: Inter;
+                    font-style: normal;
+                    font-weight: normal;
+                    font-size: 15px;
+                }
+            }
+        }
+    }
+}
+
+.required {
+    &::after{
+        content: "*";
+        color: rgb(255, 69, 69);
+    }
+}
+
+.success-note {
+    border: 0px solid #1b5f1b;
+    border-radius: 15px;
+    max-height: 0px;
+    overflow-y: hidden;
+    transition: 0.5s;
+    background-color: #60dc60d6;
+    color: #1b5f1b;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 15px;
+    margin-left: 85px;
+}

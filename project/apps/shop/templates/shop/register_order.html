@@ -18,44 +18,7 @@
     <div class="order-content">
         <div class="order-info">
         <form action="{% url 'shop:order_create' %}">
-            <div class="order-part">
-                <span class='order-part__title'>
-                    1. Личные данные
-                </span>
-                <input type="text" placeholder='ФИО' name='username' class='order-part__input' required>
-                <input type="text" placeholder='Телефон' name='phone' class='order-part__input' required>
-                <input type="text" placeholder='Email' name='email' class='order-part__input' required>
-            </div>
-            <div class="order-part">
-                <span class='order-part__title'>
-                    2. Доставка
-                </span>
-                {% for item in shippings %}
-                    <label for="{{ item.id }}" class='order-part__radio'>
-                        <input type="radio" name="shipping" id="{{item.id}}" value="{{item.id}}" {% if forloop.first %}checked{% endif %} class='radio-btn-shipping'>
-                        {{item.title}}
-                    </label>
-                {% endfor %}
-                <input type="text" placeholder='Город доставки' name='city' class='order-part__input' required>
-                <input type="text" placeholder='Улица' name='street' class='order-part__input' >
-                <input type="text" placeholder='Дом' name='building' class='order-part__input' >
-                <input type="text" placeholder='Квартира/офис' name='appartment' class='order-part__input'>
-                <input type="text" placeholder='Комментарий' name='comment' class='order-part__input comment'>
-            </div>
-            <div class="order-part">
-                <span class='order-part__title'>
-                    3. Оплата
-                </span>
-                {% for item in payments %}
-                    <label for="{{ item.id }}" class='order-part__radio'>
-                        <input type="radio" name="payment" id="{{item.id}}" value="{{item.id}}" {% if forloop.first %}checked{% endif %} class='radio-btn-payment'>
-                        {{item.title}}
-                    </label>
-                {% endfor %}
-            </div>
-            <button class="sn-order-form" type='submit'>
-                Оформить заказ
-            </button>
+            {% include 'shop/includes/order_form.html' %}
         </form>
         </div>
         <div class="order-products">

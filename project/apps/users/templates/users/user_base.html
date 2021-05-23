@@ -1,9 +1,48 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
+{% block crumbs %}
+    <div class="crumbs">
+        <a href="{% url 'index_page' %}" class="crumb">Главная</a>
+        <a class="crumb">Личный кабинет</a>
+    </div>
+{% endblock crumbs %}
+
+{% block page_title %}
+    <span class="content-title">Личный кабинет</span>
+{% endblock page_title %}  
+
+
 {% block content %}
-    <form method="POST">
-        {% csrf_token %}
-        {{form.as_p}}
-        <button type="submit" class="sn-registration">Зарегистрироваться</button>
-    </form>
+    <div class="user-content">
+    {% block sidebar %}
+            <div class="user-menu">
+                <span class="user-menu__name">Личный кабинет <strong id="username">{{request.user.username}}</strong></span>
+                <div class="user-options">
+                        <a class="user-options__item{% block change_data %}{% endblock %}" href="{% url 'account:profile' %}">
+                            Личные данные
+                        </a>
+                        <a class="user-options__item{% block user_orders %}{% endblock %}" href="{% url 'account:order_list' %}">
+                            Ваши заказы
+                        </a>
+                        <a class="user-options__item{% block user_password %}{% endblock  %}" href="{% url 'account:change_password' %}">
+                            Сменить пароль
+                        </a>
+                        <a class="user-options__item " href={% url 'account:logout' %}>
+                            Выход
+                        </a>
+                </div>
+            </div>
+    {% endblock sidebar %}
+    {% block user_content %}
+        
+    {% endblock  %}
+    </div>
+    
 {% endblock content %}
+
+
+{% block extra_scripts %}
+    <script src="{% static 'js/user.js' %}"></script>
+{% endblock extra_scripts %}

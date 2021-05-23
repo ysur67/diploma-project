@@ -114,7 +114,6 @@
             height: 50px;
             border: 1px solid #C9D2DC;
             border-radius: 4px;
-            margin-bottom: 15px;
             font-family: Inter;
             font-style: normal;
             font-weight: normal;
@@ -123,6 +122,26 @@
             padding: 15px 16px;
             &:last-child{
                 margin-bottom: 0px;
+            }
+            &.is-invalid{ 
+                border-color: rgb(255, 69, 69);
+            }
+
+        }
+        &__item{
+            display: flex;
+            flex-direction: column;
+            font-family: Inter;
+            font-style: normal;
+            font-weight: normal;
+            margin-bottom: 15px;
+            .error {
+                display: none;
+                color: rgb(255, 69, 69);
+                font-size: 12px;
+                &.is-invalid {
+                    display: block !important;
+                }
             }
         }
         &__radio{

@@ -2,6 +2,8 @@
     &-content{
         width: 1200px;
     }
+    &-row {
+    }
     &-form{
         align-self: flex-start;
         display: flex;
@@ -25,9 +27,12 @@
             border: 1px solid $borderColor;
             box-sizing: border-box;
             border-radius: 4px;
-            width: 270px;
+            width: 320px;
             height: 50px;
             padding: 20px;
+        }
+        .is-invalid {
+            border-color: rgb(255, 69, 69) !important;
         }
         button[type='submit']{
             width: 227px;
@@ -67,8 +72,17 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        &:not(:last-of-type){
-            margin-bottom: 15px;
+        margin-bottom: 15px;
+        &__input {
+            display: flex;
+            flex-direction: column;
+            .error {
+                color: rgb(255, 69, 69);
+                font-family: Inter;
+                font-style: normal;
+                font-weight: normal;
+                font-size: 12px;
+            }
         }
     }
     &-title{
@@ -77,6 +91,7 @@
         font-weight: 500;
         font-size: 15px;
         line-height: 18px;
+        margin-right: 20px;
     }
 
 }

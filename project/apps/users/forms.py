@@ -50,3 +50,14 @@ class RegistrationForm(FormMixin):
 class LoginForm(FormMixin):
     pass
 
+
+class ChangeDataForm(forms.Form):
+    email = forms.EmailField(
+        label='Эл. адрес'
+    )
+    first_name = forms.CharField(
+        label='Имя'
+    )
+    last_name = forms.CharField(
+        label='Фамилия'
+    )

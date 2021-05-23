@@ -22,7 +22,10 @@
             {% for field in form %}
                 <div class="user-field">
                     <label class="user-title" for="{{ field.auto_id }}">{{ field.label }}</label>
-                    {{ field }}
+                    <div class="user-field__input">
+                        {{ field }}
+                        <div class="error"></div>
+                    </div>
                 </div>
             {% endfor %}
             <span class="user-field display-errors">

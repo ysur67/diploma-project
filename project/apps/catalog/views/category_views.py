@@ -47,7 +47,7 @@ class CategoryJSONDetail(SingleObjectTemplateResponseMixin, JSONDetailView):
             except ValueError:
                 page = 1
 
-            pagin = pagination(products, page, 10, count=context['total'])
+            pagin = pagination(products, page, 12, count=context['total'])
             products = pagin.items
             context['pagination'] = get_template(
                 "includes/pagination.html"

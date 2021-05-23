@@ -53,13 +53,9 @@ function changePage(event) {
     event.preventDefault();
     var target = event.target;
     var page = target.dataset.href;
-    var form = $('#sn-filter')
-    var formData = form.serialize()
-    // var requestData = {
-    //     page: page
-    // }
-    var requestData = formData + `&page=${page}`
-    console.log(requestData)
+    var form = $('#sn-filter');
+    var formData = form.serialize();
+    var requestData = formData + `&page=${page}`;
     $.ajax({
         url: window.location.href,
         type: 'GET',

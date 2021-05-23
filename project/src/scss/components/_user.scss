@@ -1,8 +1,14 @@
 .user{
+    &-content{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
     &-menu{
         display: flex;
         flex-direction: column;
-        width: 259px;
+        width: 325px;
+        height: 250px;
         padding: 17px 25px;
         border: 1px solid $borderColor;
         border-radius: 4px;
@@ -36,6 +42,10 @@
             &:hover{
                 cursor: pointer;
                 color: $textHoverColor;
+            }
+            &.active {
+                color: $textHoverColor;
+                font-weight: 500 !important;
             }
         }
     }

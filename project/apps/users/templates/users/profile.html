@@ -1,38 +1,51 @@
-{% extends 'base.html' %}
+{% extends 'users/user_base.html' %}
 
 {% load static %}
 
-{% block crumbs %}
-    <div class="crumbs">
-        <a href="{% url 'index_page' %}" class="crumb">Главная</a>
-        <a class="crumb">Личный кабинет</a>
+{% block change_data %} active{% endblock  %}
+
+
+{% block user_content %}
+
+    <div class="account-wrapper">
+        <div class="account-wrapper__title">Личные данные</div>
+        <div class="success-note">Ваши данные успешно сохранены</div>
+        <form class="account-wrapper__form" action="{% url 'account:profile' %}">
+            <div class="form-row">
+                <label for="username" class="form-row__title required">Никнейм</label>
+                <div class="form-row__input">
+                    <input type="text" name="username" id="username" value="{{ request.user.username }}">
+                    <div class="error"></div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label for="email" class="form-row__title required">Почтовый адрес</label>
+                <div class="form-row__input">
+                    <input type="text" name="email" id="email" value="{{ request.user.email }}">
+                    <div class="error"></div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label for="first_name" class="form-row__title ">Имя</label>
+                <div class="form-row__input">
+                    <input type="text" name="first_name" id="first_name" value="{{ request.user.first_name }}">
+                    <div class="error"></div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label for="last_name" class="form-row__title ">Фамилия</label>
+                <div class="form-row__input">
+                    <input type="text" name="last_name" id="last_name" value="{{ request.user.last_name }}">
+                    <div class="error"></div>
+                </div>
+            </div>
+
+            <button type='submit' class='sn-form'>Сохранить</button>
+
+        </form>
     </div>
-{% endblock crumbs %}
 
-{% block page_title %}
-    <span class="content-title">Личный кабинет</span>
-{% endblock page_title %}  
-
-
-{% block content %}
-<div class="user-content">
-    <div class="user-menu">
-           <span class="user-menu__name">Личный кабинет <strong>{{request.user.username}}</strong></span>
-           <div class="user-options">
-                <a class="user-options__item">
-                    Личные данные
-                </a>
-                <a class="user-options__item">
-                    Ваши заказы
-                </a>
-                <a class="user-options__item">
-                    Сменить пароль
-                </a>
-                <a class="user-options__item">
-                    Выход
-                </a>
-           </div>
-    </div>
-</div>
-    
-{% endblock content %}
+{% endblock  %}

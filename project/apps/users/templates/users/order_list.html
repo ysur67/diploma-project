@@ -1,0 +1,43 @@
+{% extends 'users/user_base.html' %}
+
+{% load static %}
+
+{% block user_orders %} active{% endblock  %}
+
+
+{% block user_content %}
+
+    <div class="account-wrapper">
+        <div class="account-wrapper__title">Ваши заказы</div>
+        <div class="account-wrapper__order-list" >
+            {% for order in orders %}
+                <div class="order-row">
+                    <div class="order-row-info">
+                        <div class="order-row__name">Заказ №{{ order.id }} от {{ order.date|date:'d.m.Y H:i' }}</div>
+                        <div class="order-row__total">{{ order.total_price }} &#8381</div>
+                    </div>
+                    <div class="info">
+                        {% for item in order.items.all %}
+                            <div class="info__title">{{ forloop.counter }}. {{ item.product.title }} x{{ item.amount }}, итого {{ item.total }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+            {% if not orders %}
+                <div class="cart-empty" style="display:flex; width:100%">
+                    <div class="empty-info">
+                        <img src="/static/image/empty-cart.svg" alt="cart is empty">
+                        <span class="empty-title">
+                            <h1>Список ваших заказов пуст</h1>
+                            <p>Вы всегда можете найти товары по вкусу в нашем каталоге</p>
+                        </span>
+                    </div>
+                    <a href="{% url 'catalog:category_list' %}" class="to-catalog">
+                        Перейти в каталог
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock  %}

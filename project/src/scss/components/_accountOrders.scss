@@ -1,0 +1,53 @@
+.account-wrapper__order-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    .order-row {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid $grayText;
+        border-radius: 4px;
+        padding: 10px 10px;
+        margin-bottom: 15px;
+        &:hover{
+            background-color: #313D49;
+            color: white;
+            cursor: pointer;
+        }
+        &__name {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 600;
+            pointer-events: none;
+        }
+        &__total {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 600;
+            color: $textHoverColor;
+            pointer-events: none;
+        }
+        &-info {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            pointer-events: none;
+        }
+        .info {
+            max-height: 0px;
+            overflow: hidden;
+            transition: 0.8s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            font-family: Inter;
+            font-style: normal;
+            font-weight: normal;
+            pointer-events: none;
+        }
+    }
+
+}
+

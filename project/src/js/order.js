@@ -1,4 +1,5 @@
 import request from './components/tools.js';
+import { displayErrors, clearErrors } from './components/form.js';
 
 
 function changeState(buttons){
@@ -15,13 +16,18 @@ function changeState(buttons){
 async function sendOrderForm(event){
     event.preventDefault();
     var form = event.target.closest('form');
+    clearErrors(form);
     var data = new FormData(form);
     var url = form.action;
     var response_data = await request('post', url, data)
     if(response_data.redirect)
         window.location.href = response_data.redirect;
-}
 
+    if(response_data.errors){
+        displayErrors(form, response_data.fields);
+        return;
+    }
+}
 
 var shippingButtons = document.querySelectorAll('.radio-btn-shipping');
 var paymentButtons = document.querySelectorAll('.radio-btn-payment');

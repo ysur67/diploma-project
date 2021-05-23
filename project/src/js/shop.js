@@ -51,11 +51,9 @@ function removeItem(event){
 
 }
 
-var cartAddButtons = document.querySelectorAll('.sn-product');
-cartAddButtons.forEach(btn => {
-    btn.addEventListener('click', addItemToCart);
+$(document).on('click', '.sn-product', function() {
+    addItemToCart(event)
 })
-
 
 var itemRemoveButtons = document.querySelectorAll('.sn-remove');
 itemRemoveButtons.forEach(btn => {

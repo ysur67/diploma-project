@@ -68,6 +68,7 @@ class Order(models.Model):
         related_name='orders',
         null=True,
         blank=True,
+        verbose_name='Пользователь'
     )
     full_name = models.CharField(
         max_length=300,
@@ -95,6 +96,7 @@ class Order(models.Model):
         OrderStatus,
         on_delete=models.SET_DEFAULT,
         default=OrderStatus.get_first,
+        verbose_name='Статус заказа'
     )
     payment_type = models.ForeignKey(
         PaymentType,
@@ -105,29 +107,39 @@ class Order(models.Model):
     )
     city = models.CharField(
         max_length=150,
+        null=True,
+        blank=True,
     )
     street = models.CharField(
         max_length=200,
+        null=True,
+        blank=True,
     )
     building = models.CharField(
         max_length=10,
+        null=True,
+        blank=True,
     )
     appartment = models.CharField(
         max_length=20,
         verbose_name='Квартира/Офис',
-        null=True
+        null=True,
+        blank=True,
     )
     date = models.DateTimeField(
         auto_now=True,
+        verbose_name='Дата заказа'
     )
     total_price = models.FloatField(
         validators=[
             MinValueValidator(0.0)
-        ]
+        ],
+        verbose_name='Полная стоимость заказа'
     )
     comment = models.TextField(
         null=True, 
-        blank=True
+        blank=True,
+        verbose_name='Комментарий к заказу'
     )
 
     def __str__(self):
@@ -135,6 +147,10 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
+
+    class Meta:
+        verbose_name = 'Заказной товар'
+        verbose_name_plural = 'Заказные товары'
 
     order = models.ForeignKey(
         Order,
