@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block crumbs %}
+    <div class="crumbs">
+        <a href="{% url 'index_page' %}" class="crumb">Главная</a>
+        <a class="crumb">Вакансии</a>
+    </div>
+{% endblock crumbs %}
+
+{% block page_title %}
+    <span class="content-title">Наши вакансии</span>
+{% endblock page_title %}  
+
+
+{% block content %}
+    <div class="user-content">
+        {% block page_content %}{% endblock  %}
+    </div>
+{% endblock content %}
+
+
+{% block extra_scripts %}
+    <script src="{% static 'js/user.js' %}"></script>
+{% endblock extra_scripts %}

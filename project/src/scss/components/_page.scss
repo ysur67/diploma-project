@@ -1,0 +1,36 @@
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-family: Inter;
+    &__item {
+        margin-bottom: 20px;
+        .title {
+            font-size: 18px;
+            font-weight: 600;
+            color: $textColor;
+        }
+        .block{
+            &__item {
+                margin-left: 25px;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                margin-bottom: 10px;
+                img {
+                    width: 25px;
+                    height: 25px;
+                    margin-right: 10px;
+                }
+            }
+        }
+    }
+    &__text {
+        .salary {
+            color: $textHoverColor;
+            font-size: 18px;
+            font-weight: 600;
+            display: inline;
+        }
+    }
+}

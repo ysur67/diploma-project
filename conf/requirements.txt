@@ -89,3 +89,4 @@ websocket-client==0.58.0
 wrapt==1.12.1
 zipp==3.4.1
 zope.interface==4.3.2
+django-ajax-selects

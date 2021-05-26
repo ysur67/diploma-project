@@ -1,0 +1,64 @@
+{% extends 'pages/page_base.html' %}
+
+{% load static %}
+
+{% block crumbs %}
+    <div class="crumbs">
+        <a href="{% url 'index_page' %}" class="crumb">Главная</a>
+        <a class="crumb" href={% url 'pages:vacancy_list' %}>Вакансии</a>
+        <a class="crumb">{{ object.title }}</a>
+
+    </div>
+{% endblock crumbs %}
+
+{% block page_title %}
+    <span class="content-title">{{ object.title }}</span>
+{% endblock page_title %}  
+
+{% block page_content %}
+    <div class="content">
+        <div class="content__text">{{ object.description|safe }}</div>
+        {% if object.show_salary %}
+            <div class="content__text">
+                Твоя заралата после собеседования
+                <div class="salary">
+                    {{ object.salary_start }}₽ до {{ object.salary_end }}₽
+                </div>
+            </div>
+        {% endif %}
+        <div class="content__item">
+            <div class="title"> <img src={% static 'image/mini-logo.svg' %} alt="">Твои задачи</div>
+            <div class="block">
+                {% for task in object.tasks.all %}
+                    <div class="block__item">
+                       <img src={% static 'image/ul.svg' %} alt=""> {{task.text}}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="content__item">
+            <div class="title"> <img src={% static 'image/mini-logo.svg' %} alt="">Наши требования к тебе</div>
+            <div class="block">
+                {% for req in object.requirements.all %}
+                    <div class="block__item">
+                        <img src={% static 'image/ul.svg' %} alt="">
+                        {{ req.text }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="content__item">
+            <div class="title"> <img src={% static 'image/mini-logo.svg' %} alt="">Твои условия работы</div>
+            <div class="block">
+                {% for cond in object.conditions.all %}
+                    <div class="block__item">
+                        <img src={% static 'image/ul.svg' %} alt="">
+                        {{ cond.text }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock  %}

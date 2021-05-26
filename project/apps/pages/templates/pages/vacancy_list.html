@@ -1,0 +1,7 @@
+{% extends 'pages/page_base.html' %}
+
+{% block page_content %}
+    {% for vac in object_list %}
+        <a href="{% url 'pages:vacancy' vac.id %}">{{vac.title}}</a>
+    {% endfor %}
+{% endblock  %}
