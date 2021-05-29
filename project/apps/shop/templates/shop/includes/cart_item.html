@@ -1,7 +1,7 @@
 {% load static %}
 
 {% block cart_item %}
-<tr>
+<tr class="{% if forloop.last %}last{% elif forloop.first %}first{% endif %}">
    <td class="item-product">
        {% if item.product.image %}
            <img src="{{ item.product.image.url }}" alt="{{ item.product.title }}" class='item-img'>
@@ -28,4 +28,7 @@
        </div>
    </td>
 </tr>
+{% if not forloop.last %}
+    <tr class="border border_{{ item.product.id }}"><td></td><td></td><td></td><td></td><td></td></tr>
+{% endif %}
 {% endblock cart_item %}

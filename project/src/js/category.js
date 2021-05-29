@@ -107,4 +107,5 @@ window.addEventListener("DOMContentLoaded", function() {
     $('body').on('click', '.active-page', function(event) {
         changePage(event);
     })
+    
 });

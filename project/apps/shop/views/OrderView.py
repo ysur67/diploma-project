@@ -12,6 +12,7 @@ from django.views.generic import View, TemplateView
 from django.http import JsonResponse
 from apps.main.utils import OrderFormValidator
 from django.urls import reverse_lazy
+from apps.main.utils import template_email_message
 
 
 class RegisterOrder(TemplateView):
@@ -87,7 +88,10 @@ class CreateOrder(View):
                 product_price=item.product.price,
                 total=item.total
             )
-
-        cart.clear(request)
         json_response['redirect'] = reverse_lazy('index_page')
+        template_email_message(
+            'shop/email.html', 'Спасибо за заказ',
+            [post_data.get('email')], {'order': order, 'request': request}
+        )
+        cart.clear(request)
         return JsonResponse(json_response)

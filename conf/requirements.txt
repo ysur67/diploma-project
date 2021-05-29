@@ -90,3 +90,4 @@ wrapt==1.12.1
 zipp==3.4.1
 zope.interface==4.3.2
 django-ajax-selects
+django-environ==0.4.5

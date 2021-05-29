@@ -39,4 +39,12 @@
 
 {% block extra_scripts %}
     <script src="{% static 'js/order.js' %}"></script>
+    {% comment %} <script type="text/javascript" src="/js/jquery.maskedinput-1.3.min.js"></script> {% endcomment %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/jquery.inputmask.bundle.min.js"></script>
+
+    <script>
+        $(document).ready(function(){
+            $("#phone").inputmask("+7 (999) 999-99-99");
+        })
+    </script>
 {% endblock extra_scripts %}

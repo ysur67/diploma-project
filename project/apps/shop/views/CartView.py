@@ -18,27 +18,43 @@ from django.db.models import Sum
 class AddItemView(View):
     
     def post(self, request, *args, **kwargs):
-        user = self.request.user
-        cart = get_or_create_cart(self.request)
-        product_id = self.request.POST.get('productId')
+        if not request.is_ajax():
+            raise Http404('Такой страницы не существует!')
 
-        cart.set_product(product_id)
+        user = self.request.user
+        post_data = request.POST.copy()
+        cart = get_or_create_cart(self.request)
+        product_id = post_data.get('productId')
+        amount = post_data.get('amount', 1)
+        amount = int(amount)
+        # amount = amount if amount > 0 else None
+        json_reponse = {
+            'errors': False,
+            'fields': {},
+            'total': None,
+            'amount': None,
+            'message': ''
+        }
+        product = Product.objects.get(id=int(product_id))
+        if product.amount < amount:
+            json_reponse['errors'] = True
+            json_reponse['fields']['amount'] = "Такого количества нет на складе"
+            return JsonResponse(json_reponse)
+
+        cart.set_product(product_id, amount)
         # both of carts has same method 'count'
         # so it doesnt't matter which cart is given
         cart.count()
 
-        if self.request.is_ajax():
-            if not user.is_authenticated:
-                serializer = UnauthCartSerializer(cart)
-                self.request.session['cart'] = serializer.data
-                self.request.session.modified = True
-            return JsonResponse({
-                'total': cart.total,
-                'amount' : cart.amount,
-                'message': 'Добавлен в корзину'
-            })
-        else:
-            raise Http404('Такой страницы не существует!')
+        if not user.is_authenticated:
+            serializer = UnauthCartSerializer(cart)
+            self.request.session['cart'] = serializer.data
+            self.request.session.modified = True
+
+        json_reponse['total'] = cart.total
+        json_reponse['amount'] = cart.amount
+        json_reponse['message'] = 'Добавлен в корзину'
+        return JsonResponse(json_reponse)
 
 
 

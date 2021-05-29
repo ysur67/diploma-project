@@ -117,7 +117,7 @@ class OrderListView(AccountMixin):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['orders'] = Order.objects.filter(user=self.request.user)
+        context['orders'] = Order.objects.filter(user=self.request.user).order_by('-id')
         return context
 
 

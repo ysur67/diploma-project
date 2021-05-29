@@ -7,3 +7,4 @@ from .validators import (
     UserChangeDataValidator,
     UserChangePasswordValidator
 )
+from .email import template_email_message

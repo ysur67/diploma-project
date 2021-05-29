@@ -1,4 +1,17 @@
 .product{
+    &-form{
+        margin-top: 15px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+    }
+    &-controls {
+        margin-top: 160px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
     &__wrapper{
         width: 1200px;
         display: flex;
@@ -20,6 +33,7 @@
         }
     }
     &-info{
+        width: 500px;
         &__code{
             font-family: Inter;
             font-style: normal;
@@ -45,8 +59,24 @@
                 font-weight: 600;
                 font-size: 35px;
                 line-height: 42px;
-
             }
+        }
+        &__sn{
+            padding: 16px 50px;
+            color: white;
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 600;
+            height: 50px;
+            background: #313D49;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        &__inputs {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            margin-right: 25px;
         }
     }
     &__extra{

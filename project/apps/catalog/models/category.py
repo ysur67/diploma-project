@@ -32,9 +32,8 @@ class Category(MPTTModel, custom_models.CatalogMixin):
     def get_products(self, instance):
         qs = custom_models.Product.objects.filter(
             category__in=instance.get_descendants(include_self=True),
+            price__gt=0
         )
         qs = qs.distinct()
 
         return qs.order_by("-id")
-
-

@@ -1,6 +1,82 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block styles %}
+
+<style>
+    .quantity {
+        position: relative;
+        width: 50%;
+    }
+
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button
+    {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    input[type=number]
+    {
+        -moz-appearance: textfield;
+    }
+
+    .quantity input {
+        width: 100px;
+        height: 42px;
+        line-height: 1.65;
+        float: left;
+        display: block;
+        padding: 0;
+        margin: 0;
+        padding-left: 20px;
+        border: 1px solid #eee;
+    }
+
+    .quantity input:focus {
+        outline: 0;
+    }
+
+    .quantity-nav {
+        float: left;
+        position: relative;
+        height: 42px;
+    }
+
+    .quantity-button {
+        position: relative;
+        cursor: pointer;
+        border-left: 1px solid #eee;
+        width: 20px;
+        text-align: center;
+        color: #333;
+        font-size: 13px;
+        font-family: "Trebuchet MS", Helvetica, sans-serif !important;
+        line-height: 1.7;
+        -webkit-transform: translateX(-100%);
+        transform: translateX(-100%);
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -o-user-select: none;
+        user-select: none;
+    }
+
+    .quantity-button.quantity-up {
+        position: absolute;
+        height: 50%;
+        top: 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .quantity-button.quantity-down {
+        position: absolute;
+        bottom: -1px;
+        height: 50%;
+    }
+</style>
+{% endblock  %}
+
 {% block crumbs %}
     <div class="crumbs">
         <a href="{% url 'index_page' %}" class="crumb">Главная</a>
@@ -31,8 +107,23 @@
                     <span class="product-info__code">{{product.code}}</span>
                 {% endif %}
                 <span class="product-info__title">{{product.title}}</span>
-                <div class="product-info__prices">
-                    <span class="price">{{product.price}} руб.</span>
+                <span class="product-info__title">
+                    Остаток на складе: {{ product.amount }} шт.
+                </span>
+                <div class="product-controls">
+                    <div class="product-info__prices">
+                        <span class="price">{{product.price}} руб.</span>
+                    </div>
+                    <form action="{% url 'shop:add_item' %}" class='product-form'>
+                        <input type="hidden" name="productId" value="{{ product.id }}">
+                        <div class="product-info__inputs">
+                            <div class="quantity">
+                                <input type="number" name='amount' min="1" max="{{ product.amount }}" step="1" value="1">
+                            </div>
+                            <div class="error"></div>
+                        </div>
+                        <input type="submit" class="product-info__sn" value="В корзину">
+                    </form>
                 </div>
             </div>
         </div>
@@ -40,14 +131,14 @@
             <div class="product__description">
                 <span class="title">Характеристики</span>
                 {% for attribute in product.attributes.all %}
-                <div class="product__attribute">
-                    <span class="product__attribute-title">
-                        {{attribute.attribute_value.attribute}}
-                    </span>
-                    <span class="product__attribute-value">
-                        {{attribute.attribute_value.value}}
-                    </span>
-                </div>
+                    <div class="product__attribute">
+                        <span class="product__attribute-title">
+                            {{attribute.attribute_value.attribute}}
+                        </span>
+                        <span class="product__attribute-value">
+                            {{attribute.attribute_value.value}}
+                        </span>
+                    </div>
                 {% endfor %}
                 {% if product.description %}
                     <span class="title description">Описание</span>
@@ -70,3 +161,42 @@
         
     </div>
 {% endblock content %}
+
+{% block extra_scripts %}
+
+<script src="{% static "js/shop.js" %}"></script>
+<script>
+    jQuery('<div class="quantity-nav"><div class="quantity-button quantity-up">+</div><div class="quantity-button quantity-down">-</div></div>').insertAfter('.quantity input');
+    jQuery('.quantity').each(function() {
+      var spinner = jQuery(this),
+        input = spinner.find('input[type="number"]'),
+        btnUp = spinner.find('.quantity-up'),
+        btnDown = spinner.find('.quantity-down'),
+        min = input.attr('min'),
+        max = input.attr('max');
+
+      btnUp.click(function() {
+        var oldValue = parseFloat(input.val());
+        if (oldValue >= max) {
+          var newVal = oldValue;
+        } else {
+          var newVal = oldValue + 1;
+        }
+        spinner.find("input").val(newVal);
+        spinner.find("input").trigger("change");
+      });
+
+      btnDown.click(function() {
+        var oldValue = parseFloat(input.val());
+        if (oldValue <= min) {
+          var newVal = oldValue;
+        } else {
+          var newVal = oldValue - 1;
+        }
+        spinner.find("input").val(newVal);
+        spinner.find("input").trigger("change");
+      });
+
+    });
+</script>
+{% endblock  %}

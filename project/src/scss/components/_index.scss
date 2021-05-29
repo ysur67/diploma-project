@@ -1,0 +1,83 @@
+
+
+.block{
+    &-wrapper{
+        width: 100%;
+        font-family: Inter;
+        margin-top: 50px;
+        .cart-wrapper {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin-top: 25px;
+            .category {
+                &-card {
+                    width: calc(100% / 4 - 30px);
+                    height: 220px;
+                    border: 1px solid $grayText;
+                    border-radius: 4px;
+                    padding: 10px 10px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    align-items: center;
+                    background-size:1px 270px;  
+                    transition: 0.5s;
+                    background-position:0px;
+                    &:hover{
+                        color: white;
+                        background: rgb(242,105,28);
+                        box-shadow: 1px 4px 21px rgb(242,105,28);
+                        background-position:270px;
+                    }
+                    &:hover .category-card__image {
+                        margin-bottom: 10px;
+                        transition: 0.5s;
+                    }
+                    &__title {
+                        margin-top: 30px;
+                        font-style: normal;
+                        font-weight: 600;
+                        font-size: 18px;
+                        line-height: 26px;
+                        color: #36393C;
+                        text-align: center;
+                    }
+                    &__image {
+                        width: 50%;
+                        height: 50%;
+                        transition: 0.5s;
+                    }
+                }
+            }
+            .advantage {
+                &-card{
+                    width: calc(100% / 3 - 20px);
+                    display: flex;
+                    flex-direction: column;
+                    padding: 10px;
+                    &__img {
+                        width: 70px;
+                        height: 70px;
+                    }
+                    &__title {
+                        font-weight: 600;
+                        font-size: 22px;
+                        line-height: 28px;
+                        color: $textColor;
+                    }
+                    &__text{
+                        font-size: 18px;
+                    }
+                }
+            }
+        }
+    }
+    &-title{
+        font-weight: 600;
+        font-size: 36px;
+        line-height: 48px;
+        color: $textColor;
+        margin-bottom: 25px;
+    }
+}

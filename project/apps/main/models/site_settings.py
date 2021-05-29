@@ -51,6 +51,7 @@ class SiteSettings(models.Model):
         blank=True,
         verbose_name='Категории в меню навигации'
     )
+    shop_address = models.CharField(max_length=300,verbose_name='Адрес магазина', default='')
 
     class Meta:
         verbose_name = "Настройки сайта"
@@ -59,3 +60,42 @@ class SiteSettings(models.Model):
     
     def __str__(self):
         return f'Настройки сайта {self.site_name}'
+
+
+class MainSlider(models.Model):
+    
+    settings = models.ForeignKey(
+        SiteSettings,
+        on_delete=models.CASCADE,
+        related_name='slider'
+    )
+    postion = models.IntegerField(default=0, verbose_name='Позиция')
+    image = models.ImageField(verbose_name='Картинка')
+    title = models.CharField(max_length=200, null=True, verbose_name="Подпись")
+    link = models.CharField(max_length=200, verbose_name='Ссылка', default='',)
+
+    class Meta:
+        verbose_name = 'Слайдер на главной старнице'
+        verbose_name_plural = 'Слайдеры на главной странице'
+
+
+class IndexCategories(models.Model):
+    settings = models.ForeignKey(
+        SiteSettings,
+        on_delete=models.CASCADE,
+        related_name='index_categories'
+    )
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.SET_NULL,
+        related_name='index_page',
+        null=True,
+        blank=True,
+        verbose_name='Категория'
+    )
+    image = models.ImageField(verbose_name='Картинка')
+    title = models.CharField(max_length=200, null=True, verbose_name='Подпись')
+
+    class Meta:
+        verbose_name = 'Категории на главной странице'
+        verbose_name_plural = 'Категории на главной странице'

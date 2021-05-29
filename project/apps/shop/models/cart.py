@@ -37,23 +37,23 @@ class Cart(models.Model):
             self.amount += item.amount
         self.save()
 
-    def set_product(self, product_id):
+    def set_product(self, product_id, product_amount=None):
         product = Product.objects.get(id=product_id)
-        if self.items.all().filter(product=product)\
-            .exists():
-            item = CartItem.objects.get(
-                cart=self,
-                product=product
-            )
-            item.amount = item.amount + 1
+        cart_item = self.items.filter(product=product)
+        amount = product_amount if product_amount else 1
+        if cart_item.exists():
+            item = CartItem.objects.get(cart=self, product=product)
+            item.amount += amount
+            if item.amount > product.amount:
+                item.amount = product.amount
             item.total = item.amount * item.product.price
             item.save()
-        else:
+        elif not cart_item.exists():
+            amount = product_amount if product_amount else 1
             CartItem.objects.create(
-                cart=self,
-                product=product,
-                amount=1,
-                total=product.price*1
+                cart=self, product=product,
+                amount=amount,
+                total=product.price * amount 
             )
         self.save()
 
@@ -126,13 +126,13 @@ class UnauthCart:
             self.amount += item.amount
         self.total = total_price
 
-    def set_product(self, product_id):
+    def set_product(self, product_id, product_amount):
         product = Product.objects.get(id=product_id)
-        item = UnauthCartItem(product, 1)
+        item = UnauthCartItem(product, product_amount)
         item_in_cart = False
         for cart_item in self.items:
             if item.product == cart_item.product:
-                cart_item.amount += 1
+                cart_item.amount += product_amount if product_amount else 1
                 cart_item.count()
                 self.count()
                 item_in_cart = True
