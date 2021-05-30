@@ -21,6 +21,16 @@ function addItemToCart(event){
         cartBlock.forEach(element => {
             element.innerText = total;
         })
+        var amountBlock = document.querySelector('.count-value');
+        var amountWrapper = amountBlock.parentNode;
+        var isAmountBlockShowen = amountWrapper.classList.contains('display');
+        if(isAmountBlockShowen && cartAmount){
+            amountBlock.innerText = cartAmount;
+        }
+        if(!isAmountBlockShowen){
+            amountWrapper.classList.add('display');
+            amountBlock.innerText = cartAmount;
+        }
     })
 }
 
@@ -59,6 +69,20 @@ function removeItem(event){
             borderItem.remove()
         }
         productItem.remove();
+
+        var amountBlock = document.querySelector('.count-value')
+        if(amountBlock && cartAmount){
+            amountBlock.innerText = cartAmount;
+        }
+
+        if(cartAmount < 1){
+            var amountWrapper = amountBlock.parentNode;
+            var isAmountBlockShowen = amountWrapper.classList.contains('display');
+            if(isAmountBlockShowen){
+                amountWrapper.classList.remove('display');
+                amountBlock.innerText = cartAmount;
+            }
+        }
     })
 
 }

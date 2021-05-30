@@ -1,0 +1,22 @@
+{% load static %}
+
+
+<form action="{% url 'shop:add_item' %}" class="product-card" data-id="{{product.id}}">
+    <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'image/placeholder.png' %}{% endif %}" alt="">
+    <a href="{{ product.get_absolute_url }}">{{ product.title }}</a>
+    <div class="prices">
+        {% if product.old_price %}
+            <span class="price">
+                {{product.price}} &#8381;
+            </span>
+            <span class="old-price">
+                {{product.old_price}} &#8381;
+            </span>
+        {% else %}
+            <span class="price">
+                {{product.price}} &#8381;
+            </span>
+        {% endif %}
+    </div>
+    <button class="sn-product" type="submit">В коризну</button>
+</form>

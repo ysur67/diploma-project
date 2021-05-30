@@ -22,7 +22,9 @@ class Vacancy(models.Model):
         decimal_places=2,
         verbose_name='Максимальная зарплата'
     )
-    
+    image = models.FileField(verbose_name='Изображение вакансии', null=True, blank=True)
+    is_hit = models.BooleanField(verbose_name='Срочно', default=False)
+
     class Meta:
         verbose_name = 'Вакансия'
         verbose_name_plural = 'Вакансии'

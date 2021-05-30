@@ -89,6 +89,50 @@ function updateCatalog(event, page=null) {
     });
 }
 
+function submitDisplay(event, page=null){
+    event.preventDefault();
+    var target = event.target;
+    var value = target.value;
+    var form = $('#sn-filter');
+    var formData = $(form).serialize();
+    if(page){
+        formData = formData + `&page=${page}`;
+    }
+    formData = formData + `&display_type=${value}`;
+    console.log(formData)
+    $.ajax({
+        url: window.location.href,
+        type: 'GET',
+        dataType: 'json',
+        data: formData,
+        success: function (data) {
+            replaceProductList(data['products']);
+            var productListWrapper = document.querySelector('.products-content__list');
+            if(data['display_tile']){
+                productListWrapper.classList.remove('column');
+                productListWrapper.classList.add('row');
+                var button = document.querySelector('.wide');
+                button.classList.remove('active');
+                button = document.querySelector('.tile');
+                button.classList.add('active')
+                return
+            }
+            productListWrapper.classList.remove('row');
+            productListWrapper.classList.add('column');
+            var button = document.querySelector('.tile');
+            button.classList.remove('active');
+            button = document.querySelector('.wide');
+            button.classList.add('active');
+
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    })
+
+    
+}
+
 window.addEventListener("DOMContentLoaded", function() {
     updateCatalog();
     $('body').on('click', '.value-title', function(event) {
@@ -107,5 +151,19 @@ window.addEventListener("DOMContentLoaded", function() {
     $('body').on('click', '.active-page', function(event) {
         changePage(event);
     })
+    var displayBtns = document.querySelectorAll('.display-btn');
+    if(displayBtns){
+        displayBtns.forEach(btn => {
+            btn.addEventListener('click', function(event){
+                var pageElement = document.querySelector('#current-page');
+                var page = null;
+                if(pageElement)
+                    page = pageElement.dataset.href;
+                submitDisplay(event, page);
+            })
+        })
+    }
     
 });
+
+console.log('ass')

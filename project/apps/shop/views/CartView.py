@@ -27,7 +27,6 @@ class AddItemView(View):
         product_id = post_data.get('productId')
         amount = post_data.get('amount', 1)
         amount = int(amount)
-        # amount = amount if amount > 0 else None
         json_reponse = {
             'errors': False,
             'fields': {},

@@ -1,3 +1,4 @@
+from django import template
 from django.views.generic.base import View
 from django.views.generic.detail import DetailView, SingleObjectTemplateResponseMixin
 from apps.main.views import JSONDetailView, JSONResponseMixin
@@ -38,9 +39,6 @@ class CategoryJSONDetail(SingleObjectTemplateResponseMixin, JSONDetailView):
         products_count = products.count()
         context['total'] = products_count
         context['tile'] = False
-        display_type = request.session.get('display_type', None)
-        if display_type == 'tile':
-            context['tile'] = True
         if products_count:
             try:
                 page = int(request.GET.get('page', 1))
@@ -55,12 +53,26 @@ class CategoryJSONDetail(SingleObjectTemplateResponseMixin, JSONDetailView):
             if products_count <= 10:
                 context['pagination'] = None
             products_template = []
+            display_type = request.GET.get('display_type', None)
+            if not display_type:
+                display_type = request.session.get('display_tile', 'wide')
+
+            template_name = 'catalog/includes/product.html'
+            if display_type == 'tile':
+                context['display_tile'] = True
+                template_name = 'catalog/includes/product_card.html'
+                request.session['display_tile'] = 'tile'
+
+            if display_type == 'wide':
+                request.session['display_tile'] = 'wide'
+
+            request.session.modified = True
+
             for product in products:
                 products_template.append(
-                    get_template('catalog/includes/product.html').render({
+                    get_template(template_name).render({
                         'product': product,
                     })
-
                 )
             context['products'] = products_template
 

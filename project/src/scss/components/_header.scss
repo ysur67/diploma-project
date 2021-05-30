@@ -105,15 +105,39 @@
             display:flex;
             align-items: center;
             height: 100%;
-            justify-content: space-between;
+            justify-content: space-around;
             a{
                 display: flex;
                 align-items: center;
                 &:hover{
                     color: $textHoverColor;
                 }
-                img{
-                    margin-right: 10px;
+                img {
+                    margin-right: 7px;
+                }
+                .cart-images {
+                    margin-right: 15px;
+                    position: relative;
+                    .count {
+                        display: none;
+                        &.display {
+                            display: block;
+                        }
+                        img {
+                            position: absolute;
+                            top: -5px;
+                            right: -6px;
+                            width: 17px;
+                            height: 17px;
+                        }
+                        &-value {
+                            position: absolute;
+                            top: -3px;
+                            right: 6px;
+                            color: white;
+                            font-size: 8px;
+                        }
+                    }
                 }
             }
         }

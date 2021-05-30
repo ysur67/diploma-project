@@ -34,3 +34,48 @@
         }
     }
 }
+
+.vacancy {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border: 2px solid $textColor;
+    border-radius: 4px;
+    padding: 10px 10px;
+    width: 100%;
+    font-family: Inter;
+    font-size: 20px;
+    font-weight: 500;
+    position: relative;
+	font-weight: 700;
+	line-height: 1.333;
+	transition: .4s ease-out;
+    color: black;
+    &.hit {
+        border-color: $textHoverColor !important;
+
+    }
+    &:before {
+		position: absolute; 
+		left: 0;
+		bottom: 0;
+		content: "";
+		display: block;
+		width: 100%;
+		height: 100%;
+		background-color: #313D49;
+		transform-origin: 0 bottom 0;
+		transform: scaleY(0);
+		transition: .4s ease-out;
+	}
+    &:hover {
+        box-shadow: 1px 1px 14px $textHoverColor;
+		span {
+			color: $textHoverColor;
+            z-index: 1000;
+		}
+		&:before {
+			transform: scaleY(1);
+		}
+	}
+}

@@ -17,10 +17,41 @@
     width: 1200px;
     &__sorting{
         display: flex;
+        justify-content: flex-end;
+        margin-right: 15px;
+        button {
+            border-radius: 4px;
+            font-family: Inter;
+            font-size: 15px;
+            font-weight: 500;
+            background-color: #313D49;
+            width: 100px;
+            height: 30px;
+            color: white;
+            outline: none;
+            cursor: pointer;
+            border: none;
+            &.active {
+                // color: $textColor;
+                background-color: $textHoverColor;
+            }
+        }
     }
     &__list{
         padding: 10px 20px;
         border: 1px solid $borderColor;
         border-radius: 4px;
+        display: flex;
+        width: 100%;
+        &.row {
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            border: none;
+        }
+        &.column{
+            flex-direction: column;
+        }
     }
+
 }

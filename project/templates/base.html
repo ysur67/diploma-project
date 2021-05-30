@@ -10,6 +10,8 @@
     <link rel="stylesheet" type="text/css" href="{% static '/css/scss/main.css' %}" >
     <script src="{% static 'js/jquery.js' %}"></script>
     <script src="{% static 'js/base.js' %}"></script>
+    <script src="{% static 'js/footer.js' %}"></script>
+
     <title>{{site_settings.site_name}}</title>
     {% block styles %}{% endblock styles %}
 </head>
@@ -33,5 +35,7 @@
     </footer>
 
     {% block extra_scripts %}{% endblock extra_scripts %}
+
+{% include 'includes/footer.html' %}
 </body>
 </html>

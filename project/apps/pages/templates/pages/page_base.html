@@ -5,12 +5,12 @@
 {% block crumbs %}
     <div class="crumbs">
         <a href="{% url 'index_page' %}" class="crumb">Главная</a>
-        <a class="crumb">Вакансии</a>
+        <a class="crumb">{% block crumb_title %}{% endblock  %}</a>
     </div>
 {% endblock crumbs %}
 
 {% block page_title %}
-    <span class="content-title">Наши вакансии</span>
+    <span class="content-title">{% block main_title %}{% endblock %}</span>
 {% endblock page_title %}  
 
 

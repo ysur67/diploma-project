@@ -42,22 +42,16 @@
             </div>
         </div>
         {% include 'catalog/includes/filters.html' %}
-        {% comment %} {{ template_filters }} {% endcomment %}
     </div>
     <div class="products-content">
         <div class="products-content__sorting">
-            <form action="{{request.path}}" method='POST'>
+            <form action="{{request.path}}" id="display-type">
                 {% csrf_token %}
-                <span>Отображение</span>
-                <button type="submit" value='wide'>Список</button>
-                <button type="submit" value='tile'>Плитка</button>
+                <button type="submit" name='display_type' value='wide' class="display-btn wide {% if not display_tile %}active{% endif %}">Список</button>
+                <button type="submit" name='display_type' value='tile' class="display-btn tile {% if display_tile %}active{% endif %}">Плитка</button>
             </form>
         </div>
-        <div class="products-content__list">
-            {% comment %} {% for product in product_list %}
-                {% include 'catalog/includes/product.html' with product=product %}
-            {% endfor %} {% endcomment %}
-
+        <div class="products-content__list {% if display_tile %}row{% else %}column{% endif %}" >
             {% for product in products %}
                 {{ product }}
             {% endfor %}
