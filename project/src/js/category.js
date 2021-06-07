@@ -42,6 +42,12 @@ function submitFilters(event, updatePagin=false){
             replaceProductList(data['products']);
             if(updatePagin)
                 replacePagination(data['pagination']);
+            window.scrollTo({
+                top: 280,
+                behavior: "smooth"
+            })
+            var total = document.querySelector('#total');
+            total.innerText = data['total'];
         },
         error: function (error) {
             console.log(error)
@@ -64,6 +70,10 @@ function changePage(event) {
         success: function(data) {
             replacePagination(data['pagination']);
             replaceProductList(data['products']);
+            window.scrollTo({
+                top: 280,
+                behavior: "smooth"
+            })
         },
         error: function(error) {
             console.log(error);
@@ -99,7 +109,6 @@ function submitDisplay(event, page=null){
         formData = formData + `&page=${page}`;
     }
     formData = formData + `&display_type=${value}`;
-    console.log(formData)
     $.ajax({
         url: window.location.href,
         type: 'GET',
@@ -147,6 +156,10 @@ window.addEventListener("DOMContentLoaded", function() {
         if(pageElement)
             page = pageElement.dataset.href;
         updateCatalog(event, page);
+        window.scrollTo({
+            top: 280,
+            behavior: "smooth"
+        })
     });
     $('body').on('click', '.active-page', function(event) {
         changePage(event);
@@ -165,5 +178,3 @@ window.addEventListener("DOMContentLoaded", function() {
     }
     
 });
-
-console.log('ass')

@@ -7,10 +7,12 @@
 {% block main_title %} <img src="{% static 'image/vac_search.svg' %}" alt="" class='title-img'> Наши вакансии{% endblock %}
 
 {% block page_content %}
-    {% for vac in object_list %}
-        <a href="{% url 'pages:vacancy' vac.id %}" class="vacancy {% if vac.is_hit %}hit{% endif %}">
-            <span class="title">{{vac.title}}</span>
-            {% if vac.show_salary %} <span>от {{ vac.salary_start }} руб.</span>{% endif %}
-        </a>
-    {% endfor %}
+    <div class="vacancy__list">
+        {% for vac in object_list %}
+            <a href="{% url 'pages:vacancy' vac.id %}" class="vacancy {% if vac.is_hit %}hit{% endif %}">
+                <span class="title">{{vac.title}}</span>
+                {% if vac.show_salary %} <span>от {{ vac.salary_start }} руб.</span>{% endif %}
+            </a>
+        {% endfor %}
+    </div>
 {% endblock  %}

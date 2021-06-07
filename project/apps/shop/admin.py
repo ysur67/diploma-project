@@ -13,6 +13,8 @@ class ItemInline(admin.TabularInline):
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     list_display =('full_name', 'phone', 'email', 'date')
+    # filter_horizontal = ''
+    list_filter = ['date', 'shipping_type', 'order_status',]
     fieldsets = (
         (None, {
             "fields": (

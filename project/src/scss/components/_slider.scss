@@ -26,6 +26,9 @@
             font-size: 54px;
             color: #F4F4F4;
             text-shadow: 3px 0 5px $grayText;
+            &:visited {
+                color: #F4F4F4;
+            }
         }
     }
 }

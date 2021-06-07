@@ -37,6 +37,8 @@ class OrderStatus(OrderMixin):
         verbose_name = 'Статус заказа'
         verbose_name_plural = 'Статусы заказов'
 
+    color = models.CharField(verbose_name="Цвет", max_length=100, default='')
+
     @classmethod
     def get_first(cls):
         status_exists = cls.objects.first()

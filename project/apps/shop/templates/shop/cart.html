@@ -33,7 +33,7 @@
             </tbody>
         </table>
         <span class="cart-total-price">
-            Итого: <span class='cart-total'>{{cart.total}} ₽</span>
+            Итого: <span class='cart-total' ><span id="cart-total-price">{{cart.total}}</span> ₽</span>
         </span>
         <a href="{% url 'shop:order_register' %}" class="order-create">Сделать заказ</a>
     </div>

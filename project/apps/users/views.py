@@ -88,6 +88,13 @@ class LoginView(TemplateView):
 class ChangeDataView(AccountMixin):
     template_name = 'users/profile.html'
 
+    def render_to_response(self, context, **response_kwargs):
+        request = self.request
+        user = request.user
+        if not user.is_authenticated:
+            return redirect('account:login')
+        return super().render_to_response(context, **response_kwargs)
+
     def post(self, request, *args, **kwargs):
         post = request.POST
         post_data = post.copy()

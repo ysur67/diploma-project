@@ -4,10 +4,26 @@ body{
     overflow-x: hidden;
     a{
         text-decoration: none;
+        color: $textColor;
+        &:visited {
+            color: $textColor;
+        }
     }
     ul{
         margin: 0;
     }
+    .inactive{
+        color: #EC4F4F !important;
+        cursor: not-allowed;
+    }
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+section {
+    flex-grow: 3;
 }
 
 .page-title{

@@ -13,7 +13,7 @@
             {% for order in orders %}
                 <div class="order-row">
                     <div class="order-row-info">
-                        <div class="order-row__name">Заказ №{{ order.id }} от {{ order.date|date:'d.m.Y H:i' }}</div>
+                        <div class="order-row__name">Заказ №{{ order.id }} от {{ order.date|date:'d.m.Y H:i' }} <span class="status" style="color: {{ order.order_status.color }}">{{ order.order_status.title }}</span></div>
                         <div class="order-row__total">{{ order.total_price }} &#8381</div>
                     </div>
                     <div class="info">

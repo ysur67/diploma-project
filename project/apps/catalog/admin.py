@@ -24,9 +24,9 @@ class ProductAdmin(admin.ModelAdmin):
     )
     prepopulated_fields = {"slug": ("title",)}
     readonly_fields = ('id_1c',)
-    list_display = ('title', 'category', 'price', 'active')
+    list_display = ('title', 'category', 'price', 'amount', 'active')
     search_fields = ('title__startswith',)
-    list_filter = ('active',)
+    list_filter = ('active', 'old_price')
 
 @admin.register(Attribute)
 class AttributeAdmin(admin.ModelAdmin):

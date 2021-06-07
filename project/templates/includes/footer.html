@@ -1,2 +1,35 @@
 
 {% load static %}
+
+<footer class="footer">
+    <div class="footer-wrapper">
+
+        <div class="footer-wrapper__row">
+            <a href="https://{{ site_settings.vk }}" target="_blank">
+                <img src="{% static 'image/vk.svg' %}" class="badge"></img>
+            </a>
+            <a href="">
+                <img src="{% static 'image/twitter.svg' %}" class="badge"></img>
+            </a>
+            <a href="">
+                <img src="{% static 'image/youtube.svg' %}" class="badge"></img>
+            </a>
+            <a href="https://{{ site_settings.instagram }}" target="_blank">
+                <img src="{% static 'image/inst.svg' %}" class="badge"></img>
+            </a>
+        </div>
+
+        <div class="footer-wrapper__row">
+            <a href="{% url 'catalog:category_list' %}"  class="title">Каталог</a>
+            <a href="{% url 'pages:vacancy_list' %}"  class="title">Вакансии</a>
+            <a href="{% url 'account:profile' %}"  class="title">Личный кабинет</a>
+            <a href="{% url 'shop:cart' %}"  class="title">Корзина</a>
+            <a href="{% url 'index_page' %}"  class="title">Главная</a>
+        </div>
+
+        <div class="footer-wrapper__row">
+            <span class="copyright">АвтоТрак© 1337 - 2021</span>
+        </div>
+
+    </div>
+</footer>

@@ -20,8 +20,8 @@
        </div>
       
    </td>
-   <td>{{ item.amount }}</td>
-   <td>{{ item.total }}</td>
+   <td class="item-product__amount">{{ item.amount }}</td>
+   <td class="item-product__total">{{ item.total }}₽</td>
    <td>
        <div class="sn-remove">
            <img src={% static 'image/cross.svg' %} alt="remove item" data-id="{{item.product.id}}" data-href="{% url 'shop:remove_item' %}">

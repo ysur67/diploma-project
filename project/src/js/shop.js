@@ -7,6 +7,44 @@ function getTotalString(totalPrice){
     return totalPrice > 0 ? parseFloat(totalPrice) + " ₽" : "Корзина";
 }
 
+function setCart(response){
+    var total = getTotalString(response.total);
+    setTotalCost(total);
+    setCartAmount(response);
+}
+
+function setTotalCost(price_string){
+    var cartBlock = document.querySelectorAll('.cart-count')
+    cartBlock.forEach(element => {
+        element.innerText = price_string;
+    })
+}
+
+function setCartAmount(response){
+    var cartAmount = response.amount;
+    var amountBlock = document.querySelector('.count-value');
+    var amountWrapper = amountBlock.parentNode;
+    var isAmountBlockShowen = amountWrapper.classList.contains('display');
+
+    if(cartAmount < 1){
+        var amountWrapper = amountBlock.parentNode;
+        var isAmountBlockShowen = amountWrapper.classList.contains('display');
+        if(isAmountBlockShowen){
+            amountWrapper.classList.remove('display');
+            amountBlock.innerText = cartAmount;
+        }
+        return
+    }
+
+    if(isAmountBlockShowen && cartAmount){
+        amountBlock.innerText = cartAmount;
+    }
+    if(!isAmountBlockShowen){
+        amountWrapper.classList.add('display');
+        amountBlock.innerText = cartAmount;
+    }
+}
+
 function addItemToCart(event){
     event.preventDefault();
     var form = event.target.closest('form');
@@ -15,22 +53,7 @@ function addItemToCart(event){
     var url = form.action;
     request('post', url, data)
     .then(response => {
-        var total = getTotalString(response.total);
-        var cartAmount = response.amount;
-        var cartBlock = document.querySelectorAll('.cart-count')
-        cartBlock.forEach(element => {
-            element.innerText = total;
-        })
-        var amountBlock = document.querySelector('.count-value');
-        var amountWrapper = amountBlock.parentNode;
-        var isAmountBlockShowen = amountWrapper.classList.contains('display');
-        if(isAmountBlockShowen && cartAmount){
-            amountBlock.innerText = cartAmount;
-        }
-        if(!isAmountBlockShowen){
-            amountWrapper.classList.add('display');
-            amountBlock.innerText = cartAmount;
-        }
+        setCart(response)
     })
 }
 
@@ -42,8 +65,9 @@ function removeItem(event){
     var data = {'itemId': itemId}
     request('post', url, data)
     .then(response => {
-        // button.closest('tr').remove()
-        var total = getTotalString(response.total);
+        setCart(response);
+        var cartTotalSpan = document.querySelector('#cart-total-price');
+        cartTotalSpan.innerText = response.total;
         var cartAmount= response.amount;
         if(cartAmount<1){
             var cartItemsBlock = document.querySelector('.cart-content')
@@ -51,15 +75,6 @@ function removeItem(event){
             var emptyCart = document.querySelector('.cart-empty');
             emptyCart.style.display = 'flex';
         }
-        var cartBlock = document.querySelectorAll('.cart-count')
-        cartBlock.forEach(element => {
-            element.innerText = total;
-        })
-        var cartPrice = document.querySelectorAll('.cart-total')
-        cartPrice.forEach(title => {
-            title.innerHTML = total;
-        })
-
         var productItem = button.closest('tr');
         var isLast = productItem.classList.contains('last') ? true : false;
         var isFirst = productItem.classList.contains('first') ? true : false;
@@ -69,26 +84,10 @@ function removeItem(event){
             borderItem.remove()
         }
         productItem.remove();
-
-        var amountBlock = document.querySelector('.count-value')
-        if(amountBlock && cartAmount){
-            amountBlock.innerText = cartAmount;
-        }
-
-        if(cartAmount < 1){
-            var amountWrapper = amountBlock.parentNode;
-            var isAmountBlockShowen = amountWrapper.classList.contains('display');
-            if(isAmountBlockShowen){
-                amountWrapper.classList.remove('display');
-                amountBlock.innerText = cartAmount;
-            }
-        }
     })
 
 }
-
-console.log('jopa')
-        
+       
 
 async function submitProduct(event){
     event.preventDefault();
@@ -106,11 +105,7 @@ async function submitProduct(event){
         console.log(response_data.message);
     }
 
-    var total = getTotalString(response_data.total);
-    var cartBlock = document.querySelectorAll('.cart-count')
-    cartBlock.forEach(element => {
-        element.innerText = total;
-    })
+    setCart(response_data);
     
 }
 

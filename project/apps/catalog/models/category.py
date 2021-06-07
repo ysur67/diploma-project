@@ -23,7 +23,7 @@ class Category(MPTTModel, custom_models.CatalogMixin):
         return self.title
 
     def get_active_children(self):
-        return self.get_children().filter(products__gt=0).distinct()
+        return self.get_children().filter(products__gt=0, active=True).distinct()
 
     def get_absolute_url(self):
         return reverse("catalog:category_detail", kwargs={"slug": self.slug})

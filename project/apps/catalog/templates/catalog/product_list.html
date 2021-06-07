@@ -20,7 +20,7 @@
         {% if request.GET.value %}
             <span class="product-amount-title">{{ product_list.count }} товаров</span>
         {% else %}
-            <span class="product-amount-title">{{ total }} товаров</span>
+            <span class="product-amount-title"><span id="total">{{ total }}</span> товаров</span>
         {% endif %}
         
     </span>
