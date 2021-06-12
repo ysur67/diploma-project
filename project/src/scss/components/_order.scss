@@ -133,6 +133,9 @@
             }
 
         }
+        &.disabled {
+            display: none !important;
+        }
         &__item{
             display: flex;
             flex-direction: column;
@@ -147,6 +150,45 @@
                 &.is-invalid {
                     display: block !important;
                 }
+            }
+            .item-input {
+                display: flex;
+                .calculate-shipping {
+                    background: #313D49;
+                    border-radius: 4px;
+                    outline: none;
+                    color: white;
+                    font-family: Inter;
+                    font-style: normal;
+                    font-weight: 600;
+                    font-size: 14px;
+                    line-height: 18px;
+                    cursor: pointer;
+                    &:hover{
+                        background-color: #151B21;
+                    }
+                }
+            }
+            .suggestions-result {
+                &.hidden{
+                    display: none !important;
+                }
+                display: flex;
+                flex-direction: column;
+                box-shadow: 0px 0px 4px $textColor;
+                padding: 5px 5px;
+                .sug-row{
+                    margin-bottom: 5px;
+                    color: $textColor;
+                    font-size: 14px;
+                    font-family: Inter;
+                    font-weight: 400;
+                    cursor: pointer;
+                    &:hover{
+                        color: $textHoverColor;
+                    }
+                }
+
             }
         }
         &__radio{

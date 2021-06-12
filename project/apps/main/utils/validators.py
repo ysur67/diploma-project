@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login
 
 class Validator:
     def __init__(self, post_data):
-        self._data = post_data
+        self._data = post_data.copy()
         self._fields = dict()
         self._clear_data()
         self._validate_fields()

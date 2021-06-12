@@ -21,8 +21,10 @@
     </span>
     <div class="order-part__wrapper">
         {% for item in shippings %}
-            <label for="{{ item.id }}" class='order-part__radio'>
-                <input type="radio" name="shipping" id="{{item.id}}" value="{{item.id}}" {% if forloop.first %}checked{% endif %} class='radio-btn-shipping'>
+            <label for="{{ item.id }}" class="order-part__radio">
+                <input type="radio" name="shipping" id="{{item.id}}" value="{{item.id}}" 
+                    {% if forloop.first %}checked{% endif %} 
+                    class="radio-btn-shipping {% if item.is_calculated %}calculate{% endif %}">
                 {{item.title}}
             </label>
         {% endfor %}
@@ -39,6 +41,20 @@
                 {{item.title}}
             </label>
         {% endfor %} 
+    </div>
+</div>
+<div class="order-part disabled address">
+    <span class="order-part__title">
+        4. Доставка
+    </span>
+    <div class="order-part__item">
+        <div class="item-input">
+            <input type="text" autocomplete="off" placeholder='Адрес доставки' name='address' class='order-part__input' >
+            <button type='button' class="calculate-shipping" data-href="{% url 'shop:calculate_shipping' %}">Рассчитать доставку</button>
+        </div>
+        <div class="suggestions-result hidden"></div>
+
+        <div class="price-value">Стоимость доставки <span class="value"></span></div>
     </div>
 </div>
 <button class="sn-order-form" type='submit'>

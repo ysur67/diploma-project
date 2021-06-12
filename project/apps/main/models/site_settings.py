@@ -52,6 +52,8 @@ class SiteSettings(models.Model):
         verbose_name='Категории в меню навигации'
     )
     shop_address = models.CharField(max_length=300,verbose_name='Адрес магазина', default='')
+    address_code_lat = models.CharField(max_length=200, verbose_name='Геометка, широта', default='59.225473')
+    address_code_lon = models.CharField(max_length=200, verbose_name='Геометка, долгота', default='39.909615') 
 
     class Meta:
         verbose_name = "Настройки сайта"

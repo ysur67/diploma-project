@@ -2,6 +2,10 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator
 from apps.catalog.models import Product
+from django.conf import settings
+from dadata import Dadata
+from geopy import distance
+from decimal import Decimal
 
 
 class OrderMixin(models.Model):
@@ -9,7 +13,7 @@ class OrderMixin(models.Model):
         abstract = True
 
     id = models.CharField(
-        max_length=4,
+        max_length=20,
         verbose_name='Идентификатор',
         primary_key=True,
     )
@@ -30,6 +34,32 @@ class ShippingType(OrderMixin):
     class Meta:
         verbose_name = 'Вариант доставки'
         verbose_name_plural = 'Варианты доставки'
+
+    is_calculated = models.BooleanField(verbose_name="Расчитывать доставку?", default=True)
+    km_multiplier = models.DecimalField(verbose_name="руб/км", default=0, decimal_places=2, max_digits=6)
+
+    def calculate_shipping(self, distance):
+        return round(Decimal(distance) * self.km_multiplier, 2)
+
+    @classmethod
+    def get_suggestions(cls, address):
+        token = settings.DADATA_TOKEN
+        dadata = Dadata(token)
+        return dadata.suggest('address', address)
+
+
+    @classmethod
+    def get_address_code(cls, address):
+        token = settings.DADATA_TOKEN
+        secret = settings.DADATA_SECRET_KEY
+        dadata = Dadata(token, secret)
+        data = dadata.clean("address", address)
+        result = (data.get('geo_lat'), data.get('geo_lon'))
+        return result
+
+    @classmethod
+    def calculate_distance(cls, address1, address2):
+        return distance.distance(address1, address2).km
 
 
 class OrderStatus(OrderMixin):
@@ -142,6 +172,10 @@ class Order(models.Model):
         null=True, 
         blank=True,
         verbose_name='Комментарий к заказу'
+    )
+    is_paid = models.BooleanField(
+        verbose_name="Заказ был оплачен",
+        default=False
     )
 
     def __str__(self):

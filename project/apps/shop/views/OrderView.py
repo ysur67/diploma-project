@@ -10,9 +10,10 @@ from apps.shop.models import (
 from django.shortcuts import redirect as django_redirect
 from django.views.generic import View, TemplateView
 from django.http import JsonResponse
-from apps.main.utils import OrderFormValidator
+from apps.main.utils import OrderFormValidator, template_email_message
 from django.urls import reverse_lazy
-from apps.main.utils import template_email_message
+from apps.main.models import SiteSettings
+# from apps.main.uti
 
 
 class RegisterOrder(TemplateView):
@@ -32,6 +33,22 @@ class RegisterOrder(TemplateView):
         context['shippings'] = ShippingType.objects.filter(active=True)
         context['payments'] = PaymentType.objects.filter(active=True)
         return context
+
+    def post(self, request, *args, **kwargs):
+        post_data = request.POST.copy()
+        request_addrress = post_data.get('address', None)
+        json_response = {
+            'errors': False,
+            'fields': {},
+            'message': ''
+        }
+        if request_addrress is None or request_addrress is "":
+            json_response['errors'] = True
+            json_response['fields'] = {'address': 'Заполните поле адреса'}
+            return JsonResponse(json_response)
+
+        suggestions = ShippingType.get_suggestions(request_addrress)
+        return JsonResponse({'suggestions': suggestions})
     
 
 class CreateOrder(View):
@@ -60,6 +77,11 @@ class CreateOrder(View):
             json_response['errors'] = True
             json_response['fields'] = validator.errors
             return JsonResponse(json_response)
+
+        # request_address = post_data.get('address')
+
+        # if shipping_type.is_calculated:
+        #     shipping_price = shipping_type.calculate_shipping(request_address)
 
         order = Order.objects.create(
             user=user,
@@ -95,3 +117,24 @@ class CreateOrder(View):
         )
         cart.clear(request)
         return JsonResponse(json_response)
+
+
+class CalculateShippingView(View):
+
+    def post(self, request, *args, **kwargs):
+        post_data = request.POST.copy()
+        address = post_data.get('address')
+        request_addres_code = ShippingType.get_address_code(address)
+        site_settings = SiteSettings.objects.first()
+        shop_address_code_lat = site_settings.address_code_lat
+        shop_address_code_lon = site_settings.address_code_lon
+        shop_address_code = (shop_address_code_lat, shop_address_code_lon)
+        distance = ShippingType.calculate_distance(request_addres_code, shop_address_code)
+
+        shipping_type = ShippingType.objects.get(id=post_data.get('shipping'))
+        shipping_price = shipping_type.calculate_shipping(distance)
+
+        json_response = {'price': shipping_price}
+        return JsonResponse(json_response)
+        
+        

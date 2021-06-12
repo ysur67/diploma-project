@@ -1,10 +1,12 @@
+
 from django.urls import path
 from .views import (
     AddItemView,
     CartView,
     RemoveItemView,
     RegisterOrder,
-    CreateOrder
+    CreateOrder,
+    CalculateShippingView
 )
 
 
@@ -16,5 +18,6 @@ urlpatterns = [
     path('shop/order/create', CreateOrder.as_view(), name='order_create'),
 
     path('shop/add/item', AddItemView.as_view(), name='add_item'),
-    path('shop/remove/item', RemoveItemView.as_view(), name='remove_item')
+    path('shop/remove/item', RemoveItemView.as_view(), name='remove_item'),
+    path('shop/api/calculateshipping', CalculateShippingView.as_view(), name='calculate_shipping')
 ]

@@ -25,7 +25,8 @@ class OrderAdmin(admin.ModelAdmin):
         ('Основная информация о заказе', {
             "fields": (
                 'shipping_type', 'order_status', 
-                'payment_type', 'total_price'
+                'payment_type', 'total_price',
+                'is_paid'
             )
         }),
         ('Информация о доставке', {

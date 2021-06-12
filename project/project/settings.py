@@ -198,3 +198,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, '../media')
 # settings for richtextfield
 CKEDITOR_UPLOAD_PATH = "uploads/"
 # CKEDITOR_FILENAME_GENERATOR = 'utils.get_filename'
+
+DADATA_TOKEN = env('DADATA_TOKEN')
+DADATA_SECRET_KEY = env('DADATA_SECRET_KEY')
