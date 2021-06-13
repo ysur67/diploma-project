@@ -6,6 +6,7 @@ from django.conf import settings
 from dadata import Dadata
 from geopy import distance
 from decimal import Decimal
+from apps.main.models import SiteSettings
 
 
 class OrderMixin(models.Model):
@@ -37,16 +38,29 @@ class ShippingType(OrderMixin):
 
     is_calculated = models.BooleanField(verbose_name="Расчитывать доставку?", default=True)
     km_multiplier = models.DecimalField(verbose_name="руб/км", default=0, decimal_places=2, max_digits=6)
+    min_price = models.DecimalField(verbose_name='Минимальная стоимость заказа', default=0, decimal_places=2, max_digits=10)
 
-    def calculate_shipping(self, distance):
+    def count_shipping_price(self, distance):
         return round(Decimal(distance) * self.km_multiplier, 2)
+
+    def calculate_shipping(self, address):
+        site_settings = SiteSettings.objects.first()
+        shop_address_code_lat = site_settings.address_code_lat
+        shop_address_code_lon = site_settings.address_code_lon
+        shop_address_code = (shop_address_code_lat, shop_address_code_lon)
+        request_addres_code = ShippingType.get_address_code(address)
+        distance = self.calculate_distance(request_addres_code, shop_address_code)
+        return self.count_shipping_price(distance)
+
+    def count_to_door_shipping(self, order_price):
+        TO_DOOR_MULTIPLIER = 0.1
+        return round(order_price * TO_DOOR_MULTIPLIER, 2)
 
     @classmethod
     def get_suggestions(cls, address):
         token = settings.DADATA_TOKEN
         dadata = Dadata(token)
         return dadata.suggest('address', address)
-
 
     @classmethod
     def get_address_code(cls, address):
@@ -177,9 +191,25 @@ class Order(models.Model):
         verbose_name="Заказ был оплачен",
         default=False
     )
+    shipping_price = models.FloatField(
+        validators=[
+            MinValueValidator(0.0)
+        ],
+        verbose_name='Стоимость доставки',
+        default=0
+    )
+    full_address = models.CharField(
+        verbose_name='Адрес доставки',
+        null=True,
+        blank=True,
+        max_length=200
+    )
 
     def __str__(self):
         return f'{str(self.full_name)} {self.city}'
+
+    def is_shipping_default(self):
+        return self.shipping_type.id == 'SELF'
 
 
 class OrderItem(models.Model):

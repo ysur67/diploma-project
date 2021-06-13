@@ -11,9 +11,9 @@ from django.shortcuts import redirect as django_redirect
 from django.views.generic import View, TemplateView
 from django.http import JsonResponse
 from apps.main.utils import OrderFormValidator, template_email_message
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from apps.main.models import SiteSettings
-# from apps.main.uti
+from apps.shop.serializers import UnauthCartSerializer
 
 
 class RegisterOrder(TemplateView):
@@ -30,8 +30,10 @@ class RegisterOrder(TemplateView):
         context = super().get_context_data(**kwargs)
         cart = get_or_create_cart(self.request)
         context['cart'] = cart
-        context['shippings'] = ShippingType.objects.filter(active=True)
-        context['payments'] = PaymentType.objects.filter(active=True)
+        shippings = ShippingType.objects.filter(active=True).order_by('-id')
+        shippings = shippings.filter(min_price__lt=cart.total)
+        context['shippings'] = shippings
+        context['payments'] = PaymentType.objects.filter(active=True).order_by('-id')
         return context
 
     def post(self, request, *args, **kwargs):
@@ -78,10 +80,7 @@ class CreateOrder(View):
             json_response['fields'] = validator.errors
             return JsonResponse(json_response)
 
-        # request_address = post_data.get('address')
-
-        # if shipping_type.is_calculated:
-        #     shipping_price = shipping_type.calculate_shipping(request_address)
+        request_address = post_data.get('address')
 
         order = Order.objects.create(
             user=user,
@@ -110,12 +109,33 @@ class CreateOrder(View):
                 product_price=item.product.price,
                 total=item.total
             )
-        json_response['redirect'] = reverse_lazy('index_page')
+
+        request_address = post_data.get('address')
+
+        if shipping_type.is_calculated:
+            shipping_price = shipping_type.calculate_shipping(request_address)
+            if shipping_price < 1000:
+                order.shipping_price = shipping_type.count_to_door_shipping(order.total_price)
+            else:
+                order.shipping_price = shipping_price
+            order.full_address = request_address
+        else:
+            site_settings = SiteSettings.objects.first()
+            order.full_address = site_settings.shop_address
+        
+        order.save()
+
+        json_response['redirect'] = reverse('account:order_detail', args=[order.id])
         template_email_message(
             'shop/email.html', 'Спасибо за заказ',
             [post_data.get('email')], {'order': order, 'request': request}
         )
         cart.clear(request)
+        if not user:
+            serializer = UnauthCartSerializer(cart)
+            self.request.session['cart'] = serializer.data
+            self.request.session.modified = True
+
         return JsonResponse(json_response)
 
 
@@ -124,17 +144,8 @@ class CalculateShippingView(View):
     def post(self, request, *args, **kwargs):
         post_data = request.POST.copy()
         address = post_data.get('address')
-        request_addres_code = ShippingType.get_address_code(address)
-        site_settings = SiteSettings.objects.first()
-        shop_address_code_lat = site_settings.address_code_lat
-        shop_address_code_lon = site_settings.address_code_lon
-        shop_address_code = (shop_address_code_lat, shop_address_code_lon)
-        distance = ShippingType.calculate_distance(request_addres_code, shop_address_code)
-
         shipping_type = ShippingType.objects.get(id=post_data.get('shipping'))
-        shipping_price = shipping_type.calculate_shipping(distance)
+        shipping_price = shipping_type.calculate_shipping(address)
 
         json_response = {'price': shipping_price}
         return JsonResponse(json_response)
-        
-        

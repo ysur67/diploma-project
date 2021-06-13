@@ -1,0 +1,79 @@
+{% extends 'users/user_base.html' %}
+
+{% load static %}
+
+{% block user_orders %} active{% endblock  %}
+
+
+{% block user_content %}
+
+    <div class="account-wrapper border">
+        <div class="account-wrapper__title flex">
+            <span class="title">Заказ №{{ object.id }} от {{ order.date|date:'d.m.Y H:i' }}</span>
+            <span class="status" style="color: {{ object.order_status.color }};">
+                {{ order.order_status.title }} 
+                <img src="{% static 'image/cart-circ.svg' %}" alt="">
+            </span>
+        </div>
+        <div class="account-wrapper__order-detail" >
+            <div class="info-row">
+                <div class="info-row__title">
+                    Способ оплаты:
+                </div>
+                <div class="info-row__value">
+                    <img src="{% static 'image/cash.svg' %}" alt="">
+                    {{ order.payment_type.title }}
+                </div>
+            </div>
+            <div class="info-row">
+                <div class="info-row__title">
+                    Получатель:
+                </div>
+                <div class="info-row__value">
+                    <img src="{% static 'image/user.svg' %}" alt="">
+                    {{ order.full_name }} {{ order.phone }}
+                </div>
+            </div>
+            <div class="info-row">
+                <div class="info-row__title">
+                    Адрес:
+                </div>
+                <div class="info-row__value">
+                    <img src="{% static 'image/loc.svg' %}" alt="">
+                    {{ order.full_address }}
+                </div>
+            </div>
+            <div class="info-row">
+                <div class="info-row__title">
+                    Состав заказа:
+                </div>
+                <div class="info-row__table">
+                    {% for item in order.items.all %}
+                        <div class="item {% if forloop.last %}last{% endif %}">
+                            <img src="{{ item.product.image.url }}" alt="" class="item-img">
+                            <div class="item-title">{{ item.product.title }}</div>
+                            <div class="item-price">{{ item.product_price }} &#8381;</div>
+                            <div class="item-amount">{{ item.amount }}</div>
+                            <div class="item-total-price">{{ item.total }} &#8381;</div>
+                        </div>
+                    {% endfor %}
+                    <div class="block">
+                        <div class="block-title">Итого: </div>
+                        <div class="block-value">{{ order.total_price }} &#8381;</div>
+                    </div>
+                    {% if not object.is_shipping_default %}
+                        <div class="block no-background">
+                            <div class="block-title">Доставка: </div>
+                            <div class="block-value">{{ order.shipping_price }} &#8381;</div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="info-row">
+                <button type='button' class="repeat-order">Повторить заказ</button>
+            </div>
+        </div>
+    </div>
+
+{% endblock  %}

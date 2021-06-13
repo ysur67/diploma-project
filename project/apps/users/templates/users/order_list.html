@@ -11,17 +11,12 @@
         <div class="account-wrapper__title">Ваши заказы</div>
         <div class="account-wrapper__order-list" >
             {% for order in orders %}
-                <div class="order-row">
+                <a class="order-row" href="{% url 'account:order_detail' pk=order.id %}">
                     <div class="order-row-info">
                         <div class="order-row__name">Заказ №{{ order.id }} от {{ order.date|date:'d.m.Y H:i' }} <span class="status" style="color: {{ order.order_status.color }}">{{ order.order_status.title }}</span></div>
                         <div class="order-row__total">{{ order.total_price }} &#8381</div>
                     </div>
-                    <div class="info">
-                        {% for item in order.items.all %}
-                            <div class="info__title">{{ forloop.counter }}. {{ item.product.title }} x{{ item.amount }}, итого {{ item.total }}</div>
-                        {% endfor %}
-                    </div>
-                </div>
+                </a>
             {% endfor %}
             {% if not orders %}
                 <div class="cart-empty" style="display:flex; width:100%">

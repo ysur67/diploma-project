@@ -91,9 +91,20 @@ async function calculateShipping(event){
     var requestData = {'address': addressInput.value, 'shipping': typeShippingCode};
     var url = event.target.dataset.href;
     var responseData = await request('post', url, requestData);
-    var priceResultBlock = document.querySelector('.price-value');
-    var priceValue = priceResultBlock.querySelector('.value');
-    priceValue.innerText = responseData.price;
+    displayShippingPrice(responseData.price);
+}
+
+function displayShippingPrice(priceValue){
+    var priceWrapper = document.querySelector('.price-value');
+    var priceSpan = priceWrapper.querySelector('.value');
+    priceSpan.innerHTML = priceValue + 'руб.';
+    if(priceValue < 1000){
+        priceWrapper.innerHTML = 'Стоимость доставки до дома: 1500руб.';
+        // priceWrapper.appendChild(priceSpan);
+        return;
+    }
+    priceWrapper.innerHTML = 'Стоимость доставки: ';
+    priceWrapper.appendChild(priceSpan);
 }
 
 var shippingButtons = document.querySelectorAll('.radio-btn-shipping');

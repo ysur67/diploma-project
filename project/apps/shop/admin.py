@@ -12,7 +12,7 @@ class ItemInline(admin.TabularInline):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display =('full_name', 'phone', 'email', 'date')
+    list_display =('full_name', 'id', 'phone', 'email', 'date')
     # filter_horizontal = ''
     list_filter = ['date', 'shipping_type', 'order_status',]
     fieldsets = (
@@ -26,7 +26,7 @@ class OrderAdmin(admin.ModelAdmin):
             "fields": (
                 'shipping_type', 'order_status', 
                 'payment_type', 'total_price',
-                'is_paid'
+                'is_paid', 'shipping_price'
             )
         }),
         ('Информация о доставке', {

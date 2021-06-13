@@ -1,8 +1,9 @@
-from apps.shop.models import Order
+from apps.shop.models import Order, Cart
 from django.shortcuts import redirect
 # from apps.main.utils.validators import UserChangeDataValidator
 from django.views import generic
 from django.views.generic.base import TemplateView
+from django.views.generic import DetailView
 from .forms import RegistrationForm, LoginForm
 from django.contrib.auth.models import User
 from django.http import JsonResponse
@@ -126,6 +127,28 @@ class OrderListView(AccountMixin):
         context = super().get_context_data(**kwargs)
         context['orders'] = Order.objects.filter(user=self.request.user).order_by('-id')
         return context
+
+
+class OrderDetailView(DetailView):
+    template_name = 'users/order_detail.html'
+    model = Order
+
+    def render_to_response(self, context, **response_kwargs):
+        order = context['object']
+        if order.user != self.request.user:
+            return redirect('/')
+        return super().render_to_response(context, **response_kwargs)
+
+    def post(self, request, *args, **kwargs):
+        order = self.get_object()
+        user = request.user
+        cart = user.cart
+        cart.clear(request)
+        for item in order.items.all():
+            cart.set_product(item.product.id, item.amount)
+        cart.count()
+        return JsonResponse({'redirect':reverse_lazy('shop:order_register')})
+
 
 
 class ChangePasswordView(AccountMixin):

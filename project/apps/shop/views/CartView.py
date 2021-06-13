@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.views.generic.base import TemplateView
 from django.views.generic import View
 from apps.catalog.models import Product
 from apps.shop.models import (
@@ -83,15 +84,12 @@ class RemoveItemView(View):
 
 
 
-class CartView(View):
+class CartView(TemplateView):
     model = Cart
     context_object_name = 'cart'
     template_name = 'shop/cart.html'
-
-    def get(self, *args, **kwargs):
-        cart = get_or_create_cart(self.request)
-        return render(
-            self.request,
-            self.template_name,
-            {'cart':cart}
-        )
+    
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data()
+        context['cart'] = get_or_create_cart(self.request)
+        return context

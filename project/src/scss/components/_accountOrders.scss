@@ -51,3 +51,106 @@
 
 }
 
+
+.account-wrapper__order-detail {
+    display: flex;
+    flex-direction: column;
+    font-family: Inter;
+    width: 100%;
+    .info-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        margin: 20px 0px;
+        width: 100%;
+        &__title{
+            color: gray;
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+        &__value {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            img {
+                margin-right: 15px;
+                width: 25px;
+                height: 25px;
+            }
+        }
+        &__table {
+            display: flex;
+            flex-direction: column;
+            padding: 25px 0px;
+            padding-bottom: 15px;
+            border-radius: 4px;
+            border: 1px solid $borderColor;
+            width: 100%;
+            .item{
+                display: flex;
+                margin:0px 25px;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                border-bottom: 1px solid $borderColor;
+
+                &-img{
+                    width: 60px;
+                    height: 60px;
+                    object-fit: contain;
+                }
+                &-title {
+                    width: 400px;
+                }
+                &-price {
+                    width: 80px;
+                }
+                &-amount {
+                    width: 50px;
+                }
+                &-total-price {
+                    width: 80px;
+                }
+                &.last{
+                    border-bottom: none;
+                }
+            }
+            .block {
+                background-color: $borderColor;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                padding: 25px 25px;
+                &-title {
+                    color: $textColor;
+                    font-size: 18px;
+                    margin-bottom: 0px;
+                    line-height: 0;
+                    font-weight: 400;
+                }
+                &-value {
+                    font-weight: 500;
+                }
+                &.no-background {
+                    background-color: white;
+                }
+            }
+        }
+    }
+}
+
+.repeat-order {
+    padding: 10px 25px;
+    background-color: #313D49;
+    color: white;
+    cursor: pointer;
+    font-family: Inter;
+    font-weight: 500;
+    outline: none;
+    border: 1px solid #313D49;
+    border-radius: 4px;
+    &:hover {
+        background-color: #151B21;
+    }
+}

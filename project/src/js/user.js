@@ -39,14 +39,11 @@ function displaySuccess() {
     }, 2500)
 }
 
-function toggleOrderInfo(event){
-    var target = event.target;
-    var info = target.querySelector('.info');
-    var state = info.classList.contains('active');
-    var maxheight = state ? '0px' : '1000px'
-    info.style.maxHeight = maxheight;
-    info.classList.toggle('active');
-
+async function sendRepeatOrder(event){
+    var url = window.location.href;
+    var response = await request('post', url, {});
+    if(response.redirect)
+        window.location.href = response.redirect;
 }
 
 var snButtons = document.querySelectorAll('.sn-form')
@@ -54,7 +51,9 @@ snButtons.forEach(button => {
     button.addEventListener('click', submitForm)
 })
 
-var orders = document.querySelectorAll('.order-row');
-orders.forEach(button => {
-    button.addEventListener('click', toggleOrderInfo)
-})
+var orderRepeatButton = document.querySelector('.repeat-order');
+if(orderRepeatButton){
+    orderRepeatButton.addEventListener('click', function(event){
+        sendRepeatOrder(event);
+    });
+}

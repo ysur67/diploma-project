@@ -149,7 +149,9 @@ class UnauthCart:
                 self.items.pop(index)
 
     def clear(self, request):
-        del self.items
+        self.items.clear()
+        self.count()
+
 
 class UnauthCartItem:
     def __init__(self, product, amount):
