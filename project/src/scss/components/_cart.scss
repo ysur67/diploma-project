@@ -27,11 +27,15 @@
         border-radius: 4px;
         padding: 43px 50px;
         // display only after cart is empty
+        // text-align: center;
         display: none;
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
         transition: ease-in-out 0.5s;
+        &.center{
+            text-align: center;
+        }
     }
 }
 
@@ -166,6 +170,9 @@
     color: white;
     &:hover{
         background-color: #151B21;
+    }
+    &:visited{
+        color: white;
     }
 }
 

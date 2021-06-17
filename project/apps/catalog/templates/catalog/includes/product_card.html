@@ -2,7 +2,8 @@
 
 
 <form action="{% url 'shop:add_item' %}" class="product-card" data-id="{{product.id}}">
-    <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'image/placeholder.png' %}{% endif %}" alt="">
+    {% comment %} <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'image/placeholder.png' %}{% endif %}" alt=""> {% endcomment %}
+    <img src="http://trak35.ru/static/images/no-photo.png" >
     <a href="{{ product.get_absolute_url }}">{{ product.title }}</a>
     <div class="prices">
         {% if product.old_price %}

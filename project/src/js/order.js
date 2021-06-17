@@ -53,7 +53,7 @@ function displaySuggestions(suggestions){
     var resultBlock = document.querySelector('.suggestions-result');
     var position = getBlockPosition(addressInput);
     resultBlock.style.left = position.left;
-    resultBlock.style.top = position.top;
+    resultBlock.style.top = position.top + 50 + 'px';
     resultBlock.innerHTML = '';
     suggestions.map(sugg => {
         var template = `<div class="sug-row" data-str='${sugg.value}'>${sugg.value}</div>`;
@@ -99,12 +99,15 @@ function displayShippingPrice(priceValue){
     var priceSpan = priceWrapper.querySelector('.value');
     priceSpan.innerHTML = priceValue + 'руб.';
     if(priceValue < 1000){
-        priceWrapper.innerHTML = 'Стоимость доставки до дома: 1500руб.';
-        // priceWrapper.appendChild(priceSpan);
+        priceWrapper.innerHTML = 'Стоимость доставки до дома: ';
+        priceSpan.innerHTML = '1500 руб.';
+        priceWrapper.appendChild(priceSpan);
+        priceWrapper.classList.remove('hidden');
         return;
     }
     priceWrapper.innerHTML = 'Стоимость доставки: ';
     priceWrapper.appendChild(priceSpan);
+    priceWrapper.classList.remove('hidden');
 }
 
 var shippingButtons = document.querySelectorAll('.radio-btn-shipping');

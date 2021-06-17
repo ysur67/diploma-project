@@ -177,6 +177,9 @@
                 flex-direction: column;
                 box-shadow: 0px 0px 4px $textColor;
                 padding: 5px 5px;
+                position: absolute;
+                z-index: 1000;
+                background-color: white;
                 .sug-row{
                     margin-bottom: 5px;
                     color: $textColor;
@@ -189,6 +192,19 @@
                     }
                 }
 
+            }
+            .price-value {
+                color: $textColor;
+                font-size: 20px;
+                font-weight: 500;
+                font-family: Inter;
+                margin-top: 20px;
+                .value {
+                    color: $textHoverColor;
+                }
+                &.hidden {
+                    display: none !important;
+                }
             }
         }
         &__radio{

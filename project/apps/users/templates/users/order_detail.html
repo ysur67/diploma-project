@@ -51,7 +51,7 @@
                     {% for item in order.items.all %}
                         <div class="item {% if forloop.last %}last{% endif %}">
                             <img src="{{ item.product.image.url }}" alt="" class="item-img">
-                            <div class="item-title">{{ item.product.title }}</div>
+                            <a href="{{ item.product.get_absolute_url }}" class="item-title">{{ item.product.title }}</a>
                             <div class="item-price">{{ item.product_price }} &#8381;</div>
                             <div class="item-amount">{{ item.amount }}</div>
                             <div class="item-total-price">{{ item.total }} &#8381;</div>
