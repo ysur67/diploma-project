@@ -1,5 +1,9 @@
-# As my graduation project I've chosen online store
-This is one was all about trucks and their spares
+# Дипломный проект
+Реализация интренет-магазина автозапчастей, которая была подготовлена, как мой выпускной проект
 
-But when the unloading from 1C base appeared, it actually became something mixed,
- but not about trucks
+# Использованные технологии
+Docker и Gulp
+
+Фронт на чистом JS :)
+
+Но иногда проглядывается JQuery
